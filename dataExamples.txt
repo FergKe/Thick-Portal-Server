@@ -1,0 +1,30 @@
+--- Example of my Planter Jobsheet ---
+{
+    jobId: "12345",
+    plantId: "67890",
+    plants: [
+        {PlantName: "140mm", strata: ["stratum1", "stratum2"]}
+        {PlantName: "Viro", strata: ["stratum1", "stratum2"]}
+    ],
+    nonPlantingTasks: [
+        {TaskName: "Labour", TaskDescription: "Client asks to water plants", timeStart: 10:00am, timeEnd: 10:30am}
+    ],
+    notes: "Plants are healthy and growing well."
+    dateCreated: "2023-04-02"
+}
+--- Example of my Team Lead Jobsheet ---
+{
+    jobId: "56789",
+    teamLeadId: "101122",
+    plants: [
+        {PlantName: "140mm", strata: ["stratum1", "stratum2"]}
+        {PlantName: "Viro", strata: ["stratum1", "stratum2"]}
+    ],
+    nonPlantingTasks: [
+        {TaskName: "Labour", TaskDescription: "Client asks to water plants", timeStart: 10:00am, timeEnd: 10:30am}
+    ],
+    notes: "Plants are healthy and growing well."
+    clientName: "John Doe",
+    clientApproval: true,
+    dateCreated: "2023-04-02"
+}

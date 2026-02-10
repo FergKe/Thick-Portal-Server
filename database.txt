@@ -1,0 +1,66 @@
+---managers---
+    - id: ObjectID
+    - Username: String
+    - Email: String
+    - Password: String
+    - Role: manager
+
+---planters---
+    - id: ObjectID
+    - Username: String
+    - Email: String
+    - Password: String
+    - Role: planters
+
+---jobs---
+    - id: ObjectID
+    - JobTitle: String
+    - Location : String
+    - Description: String
+    - TeamLead: ObjectId - ref: planters
+    - Crew: Array - ObjectId - Ref: planters
+    - Client: String 
+    - JobSheets: Array - ObjectId - Ref: jobsheets
+    - Status: String | enum { "in_progress", "completed" }
+    - DateCreated: Date
+    - CompletedDate: Date
+
+---jobsheets---
+    - id: ObjectID
+    - jobId: ObjectId - ref: jobs
+    - PlanterId: ObjectId - ref: planters
+    - Plants: Array - Objects {
+        plantName: ObjectId - ref: Plants
+        strata: Array - ObjectIds - ref: strata || null
+        quanity: Number
+    } || null
+    - NonePlantingTasks: Array - Objectid ref: nonePlantingTasks || null
+    - Notes: String || null
+    - DateSubmitted: Date
+
+---TeamLeadJobSheets---
+    - id: ObjectId
+    - jobId: ObjectId - ref: jobs
+    - TeamLeadId: ObjectId - ref: planters
+    - Plants: Array - Objects {
+        plantName: ObjectId - ref: Plants
+        strata: Array - ObjectIds - ref: strata || null
+        quanity: Number
+    } || null
+    nonePlantingTasks: Array - Objectid ref: nonePlantingTasks || null
+    Notes: Array - Strings
+
+---strata---
+    - id: ObjectID
+    - strataName: String
+    - price: Number
+
+---Plants---
+    - id: ObjectId
+    - PlantName: String
+    - Price: Number
+
+---nonePlantingTasks---
+    - id: ObjectId
+    - taskName: String
+    - price: number

@@ -1,0 +1,28 @@
+--- manager ---
+    - Sign Up
+    - Login
+    - getProfile
+    - update profile 
+    - create jobs
+    - update jobs
+    - get jobs 
+    - view job sheets
+    - delete jobs
+    - Review jobs Sheets
+    - appoint teamlead
+
+--- Planter ----
+    - Sign Up
+    - Login
+    - getProfile
+    - update profile 
+    - view job
+    - create jobsheet 
+    - view jobsheet 
+    - update jobsheet
+    -submit jobsheet
+
+--- Team Lead ---
+    - Create team lead jobsheet 
+    - review JobSheets
+    - submit jobSheets 
