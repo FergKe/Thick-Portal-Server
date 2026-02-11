@@ -18,16 +18,16 @@ const teamLeadJobSheetSchema = new Schema({
     plants: {
         type: [plantArraySchema],
         default: [],
-        required: false
+
     },
     nonePlantingTask: {
         type: [nonPlantingTaskList],
         default: [],
-        required: false
+
     },
     notes: {
         type: String,
-        required: false,
+        default: ""
     },
     dateCreated: {
         type: Date,
@@ -37,4 +37,4 @@ const teamLeadJobSheetSchema = new Schema({
 });
 
 type TeamLeadJobSheet = InferSchemaType<typeof teamLeadJobSheetSchema>;
-export default model<TeamLeadJobSheet>("JobSheet", teamLeadJobSheetSchema);
+export default model<TeamLeadJobSheet>("TeamLeadJobSheet", teamLeadJobSheetSchema);

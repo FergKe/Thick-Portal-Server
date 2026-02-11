@@ -6,7 +6,6 @@ import {
   type JobSheetRes,
   type JobSheetCreateReq,
   type JobSheetUpdateReq,
-  type NewJobSheet,
 } from "../types/jobSheet.types.js";
 import {
   getAllJobSheets,
@@ -16,7 +15,6 @@ import {
   getJobSheetsByJobId,
   deleteJobSheet
 } from "../services/jobSheet.services.js"
-import type { Job } from "../types/job.types.js";
 
 export const getAllJobSheetsController = async (
   req: Request<JobSheetParams, JobSheetsRes<JobSheetType>>,

@@ -47,6 +47,10 @@ const jobSchema = new Schema({
             message: "Team lead must be a member of the crew"
         },
     },
+    jobSheets: {
+        type: [{ type: Schema.Types.ObjectId, ref: "JobSheet" }],
+        default: []
+    },
     status: {
         type: String,
         enum: ["in_progress", "completed"],
@@ -54,7 +58,7 @@ const jobSchema = new Schema({
     },
     dateCreated: {
         type: Date,
-        default: new Date()
+        default: Date.now()
     },
     completedDate: {
         type: Date,
@@ -62,5 +66,5 @@ const jobSchema = new Schema({
     }
 });
 
-type Job = InferSchemaType<typeof jobSchema>;
+export type Job = InferSchemaType<typeof jobSchema>;
 export default model<Job>("Job", jobSchema);

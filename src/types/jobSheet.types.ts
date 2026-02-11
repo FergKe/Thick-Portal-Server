@@ -7,20 +7,20 @@ type PlantListFromDB = {
     compacted?: number | null,
     organicMulch?: number | null,
     jute?: number | null,
-    quanity: number
+    quantity: number
 };
 
-type PlantList = {
+export type PlantList = {
     plantId: string,
     plantName: string,
     unsemi?: number | null,
     compacted?: number | null,
     organicMulch?: number | null,
     jute?: number | null,
-    quanity: number
+    quantity: number
 };
 
-type NonPlantingList = {
+export type NonPlantingList = {
     taskId: string,
     taskName: string,
     taskDescription: string,

@@ -2,8 +2,22 @@ import { Types } from "mongoose";
 
 type status = "in_progress" | "completed";
  
-export type Job = Partial<{
+export type JobType = {
     _id: string,
+    jobName: string,
+    client: string,
+    location: string,
+    description: string,
+    crew: string[]
+    teamLead: string,
+    jobSheets: string[]
+    status: status
+    dateCreated: Date,
+    completedDate?: Date | null,
+};
+
+export type JobFromDB = {
+    _id: Types.ObjectId,
     jobName: string,
     client: string,
     location: string,
@@ -13,26 +27,38 @@ export type Job = Partial<{
     jobSheets: Types.ObjectId[]
     status: status
     dateCreated: Date,
-    completedDate: Date,
+    completedDate?: Date | null,
+};
 
-}>;
-
-export type JobsRes<Job> = 
-    | { ok: true; plants: Array<Job> }
-    | { ok: false; message: string };
+export type JobsRes<JobType> = 
+    | { ok: boolean; jobs: Array<JobType> }
+    | { ok: boolean; message: string };
 
 export type JobParams = {
     _id: string,
 };
 
-export type JobRes<Job> = 
-    | { ok: true; job: Job }
-    | { ok: false; message: string };
+export type JobRes<JobType> = 
+    | { ok: boolean; job: JobType }
+    | { ok: boolean; message: string };
 
-export type JobCreateReq = Job;
+export type JobCreateReq = Partial<{
+    jobName: string,
+    client: string,
+    location: string,
+    description: string,
+    crew: string[]
+    teamLead: string,
+}>;
 
-export type JobUpdateReq = Job;
+export type JobUpdateReq = Partial<{
+    description?: string,
+    crew?: string[]
+    teamLead?: string,
+    jobSheets?: string[]
+    status?: status
+}>;
 
 export type JobDeleteRes = 
-    | { ok: true; message: string }
-    | { ok: false; message: string };
+    | { ok: boolean; message: string }
+    | { ok: boolean; message: string };

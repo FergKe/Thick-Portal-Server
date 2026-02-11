@@ -1,6 +1,6 @@
 import { type Request, type Response, type NextFunction } from "express";
 import {
-  type Job,
+  type JobType,
   type JobsRes,
   type JobParams,
   type JobRes,
@@ -17,22 +17,22 @@ import {
 } from "../services/job.services.js";
 
 export const getAllJobsController = async (
-  req: Request<{}, JobsRes<Job>>,
-  res: Response<JobsRes<Job>>,
+  req: Request<{}, JobsRes<JobType>>,
+  res: Response<JobsRes<JobType>>,
   next: NextFunction
 ) => {
   try {
-    const Jobs = await getAllJobs();
+    const jobs = await getAllJobs();
 
-    res.status(200).json(Jobs);
+    res.status(200).json(jobs);
   } catch (error) {
     return next(error);
   };
 };
 
 export const getJobByIdController = async (
-  req: Request<JobParams, JobRes<Job>>,
-  res: Response<JobRes<Job>>,
+  req: Request<JobParams, JobRes<JobType>>,
+  res: Response<JobRes<JobType>>,
   next: NextFunction
 ) => {
   try {
@@ -46,8 +46,8 @@ export const getJobByIdController = async (
 };
 
 export const createJobController = async (
-  req: Request<{}, JobRes<Job>, JobCreateReq>,
-  res: Response<JobRes<Job>>,
+  req: Request<{}, JobRes<JobType>, JobCreateReq>,
+  res: Response<JobRes<JobType>>,
   next: NextFunction
 ) => {
   try {
@@ -61,8 +61,8 @@ export const createJobController = async (
 };
 
 export const updateJobController = async (
-  req: Request<JobParams, JobRes<Job>, JobUpdateReq>,
-  res: Response<JobRes<Job>>,
+  req: Request<JobParams, JobRes<JobType>, JobUpdateReq>,
+  res: Response<JobRes<JobType>>,
   next: NextFunction
 ) => {
   try {

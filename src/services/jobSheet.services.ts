@@ -158,27 +158,6 @@ export const deleteJobSheet = async (
     } catch ( error: any ) {
         if ( error instanceof AppError ) throw error;
 
-        throw new AppError( 500, "Internal server error" );
-    }
-};
-
-export const getTeamLeadJobSheetsByJobId = async (
-    _id: string
-) => {
-    try {
-        const JobSheets = await JobSheet.find({ jobId: _id }).lean<JobSheetFromDB[]>();
-
-        if ( JobSheets.length === 0 ) { 
-            throw new AppError(404, "JobSheets not found")
-        };
-
-        const JobSheetsIdToString: JobSheetType[] = JobSheets.map((jobSheet) => jobSheetConversion(jobSheet))
-
-        return { ok: true , jobSheets: JobSheetsIdToString }
-        
-    } catch ( error: any )  {
-        if (error instanceof AppError) throw error;
-
-        throw new AppError(500, "Internal server error")
+        throw new AppError( 500, "Internal server error");
     }
 };

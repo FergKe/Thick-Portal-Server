@@ -50,7 +50,7 @@ export const plantArraySchema = new Schema ({
         type: Number,
         required: false
     },
-    quanity: {
+    quantity: {
         type: Number,
         required: true
     }
@@ -82,12 +82,13 @@ const jobSheetSchema = new Schema({
     },
     dateCreated: {
         type: Date,
-        default: new Date(),
+        default: Date.now,
         required: true,
     }
 });
 
-export type NonPlantingTaskArray = InferSchemaType<typeof nonPlantingTaskList>;
-export type PlantArray = InferSchemaType<typeof plantArraySchema>;
+
 type JobSheet = InferSchemaType<typeof jobSheetSchema>;
 export default model<JobSheet>("JobSheet", jobSheetSchema);
+export type NonPlantingTaskArray = InferSchemaType<typeof nonPlantingTaskList>;
+export type PlantArray = InferSchemaType<typeof plantArraySchema>;

@@ -1,3 +1,4 @@
+import type { JobFromDB } from "../types/job.types.js";
 import type { JobSheetFromDB } from "../types/jobSheet.types.js";
 
 export const jobSheetConversion = (jobsheet: JobSheetFromDB) => {
@@ -10,3 +11,14 @@ export const jobSheetConversion = (jobsheet: JobSheetFromDB) => {
         nonPlantingTask: jobsheet.nonPlantingTask.map(task => ({ ...task, taskId: task.taskId.toString() })),
     }
 };
+
+export const jobConversion = (job: JobFromDB) => {
+    return {
+        ...job,
+        _id: job._id.toString(),
+        crew: job.crew.map(crew => crew.toString()),
+        teamLead: job.teamLead.toString(),
+        jobSheets: job.jobSheets.map(jobSheet => jobSheet.toString()),
+        
+    }
+}
