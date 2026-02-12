@@ -19,6 +19,7 @@ export const createPlanter = async (
     planter: UserSignupReqBody
 ) => {
     try {
+        planter.role = "planter"
         const newPlanter: HydratedDocument<NewUser> = await Planter.create(planter);
         const resPlanter: UserSignupResBody = {
             ok: true,
@@ -86,7 +87,7 @@ export const loginPlanter = async (
         };
 
         const token:string = signToken({
-            userId: existingPlanter._id.toString(),
+            sub: existingPlanter._id.toString(),
             role: existingPlanter.role
         })
 
@@ -188,7 +189,7 @@ export const getManagerById = async (
     _id: string
 ) => {
     try { 
-        const manager = await Planter.findById(_id).lean<UserFromDB | null>();
+        const manager = await Manager.findById(_id).lean<UserFromDB | null>();
 
         if ( !manager ) {
             throw new AppError ( 404, "No manager found")

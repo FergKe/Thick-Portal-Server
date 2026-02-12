@@ -42,7 +42,8 @@ export type UserSignupReqBody = {
     username: string,
     password: string,
     email: string,
-    phoneNumber: string
+    phoneNumber: string,
+    role?: string
 };
 
 export type NewUser = {

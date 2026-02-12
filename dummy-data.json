@@ -1,0 +1,119 @@
+{
+  "planter": {
+    "create": {
+      "username": "jsonplanter",
+      "email": "jsonplanter@example.com",
+      "password": "password123",
+      "phoneNumber": "1234567891"
+    },
+    "update": {
+      "username": "updatedJsonPlanter"
+    },
+    "login": {
+      "email": "jsonplanter@example.com",
+      "password": "password123"
+    }
+  },
+  "manager": {
+    "create": {
+      "username": "jsonmanager",
+      "email": "jsonmanager@example.com",
+      "password": "password123",
+      "phoneNumber": "1122334456"
+    },
+    "update": {
+      "username": "updatedJsonManager"
+    },
+    "login": {
+      "email": "jsonmanager@example.com",
+      "password": "password123"
+    }
+  },
+  "plant": {
+    "create": {
+      "plantName": "140mm",
+      "basePrice": 0.22,
+      "unsemi": 0.02,
+      "compacted": 0.05,
+      "organicMulch": 0.03,
+      "jute": 0.04
+    },
+    "update": {
+      "basePrice": 0.23
+    }
+  },
+  "nonPlantingTask": {
+    "create": {
+      "taskName": "Site Inspection",
+      "pricePerHour": 25
+    },
+    "update": {
+      "pricePerHour": 27
+    }
+  },
+  "job": {
+    "create": {
+      "jobName": "JSON Test Job",
+      "client": "JSON Test Client",
+      "location": "JSON Test Location",
+      "description": "JSON Test Description",
+      "teamLead": "",
+      "crew": ["60d5f9f8f8a8f8a8f8a8f8a8", "60d5f9f8f8a8f8a8f8a8f8a9"]
+    },
+    "update": {
+      "client": "Updated JSON Client"
+    }
+  },
+  "jobSheet": {
+    "create": {
+      "jobId": "698ce9fb1f7cb02144fbace8",
+      "planterId": "698ce79f0df19d4c51fdb915",
+      "plants": [
+        {
+          "plantId": "698907a021d81cb8ba4a27ba",
+          "plantName": "viro",
+          "quantity": 150
+        }
+      ],
+      "nonPlantingTask": [
+        {
+          "taskId": "60d5f9f8f8a8f8a8f8a8f8ac",
+          "taskName": "Site Inspection",
+          "taskDescription": "Inspect the site before planting",
+          "timeStart": "2024-07-25T09:00:00.000Z",
+          "timeEnd": "2024-07-25T10:00:00.000Z"
+        }
+      ],
+      "notes": "JSON test notes"
+    },
+    "update": {
+      "notes": "Updated JSON test notes"
+    }
+  },
+  "teamLeadJobSheet": {
+    "create": {
+      "jobId": "60d5f9f8f8a8f8a8f8a8f8aa",
+      "teamLeadId": "60d5f9f8f8a8f8a8f8a8f8a8",
+      "plants": [
+        {
+          "plantId": "60d5f9f8f8a8f8a8f8a8f8ab",
+          "plantName": "Lodgepole Pine",
+          "quantity": 300
+        }
+      ],
+      "nonePlantingTask": [
+        {
+          "taskId": "60d5f9f8f8a8f8a8f8a8f8ac",
+          "taskName": "Site Inspection",
+          "taskDescription": "Inspect the site before planting",
+          "timeStart": "2024-07-25T09:00:00.000Z",
+          "timeEnd": "2024-07-25T10:00:00.000Z"
+        }
+      ],
+      "notes": "JSON team lead test notes"
+    },
+    "update": {
+      "notes": "Updated JSON team lead test notes"
+    }
+  }
+}

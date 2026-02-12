@@ -86,7 +86,7 @@ export const deleteTaskController = async (
     const { _id } = req.params;
     const result = await deleteTask(_id);
 
-    res.status(204).json(result);
+    res.status(200).json(result);
   } catch (error) {
     return next(error);
   }

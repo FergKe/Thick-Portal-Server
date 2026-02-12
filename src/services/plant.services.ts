@@ -126,10 +126,9 @@ export const deletePlant = async (
     _id: string
 ) => {
     try {
+        const deletedPlant: DeleteResult = await Plant.deleteOne({ _id: _id })
 
-        const deletedPlant: DeleteResult = await Plant.deleteOne({_id: _id})
-
-        if ( deletedPlant.acknowledged !== true || deletedPlant.deletedCount !== 1 ) {
+        if ( deletedPlant.deletedCount === 0 ) {
             throw new AppError(400, "Could not delete plant");
         };
 
