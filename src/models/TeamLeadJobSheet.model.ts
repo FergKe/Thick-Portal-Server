@@ -10,6 +10,10 @@ const teamLeadJobSheetSchema = new Schema({
         ref: "Job",
         required: true
     },
+    clientName: {
+        type: String,
+        required: true
+    },
     teamLeadId: {
         type: Schema.Types.ObjectId,
         ref: "Planter",

@@ -109,6 +109,7 @@ export const updateTeamLeadJobSheet = async (
         const resTeamLeadJobSheet: TeamLeadJobSheetType = {
             _id: updatedTeamLeadJobSheet._id.toString(),
             jobId: updatedTeamLeadJobSheet.jobId.toString(),
+            clientName: updatedTeamLeadJobSheet.clientName,
             teamLeadId: updatedTeamLeadJobSheet.teamLeadId.toString(),
             plants: updatedTeamLeadJobSheet.plants,
             nonePlantingTask: updatedTeamLeadJobSheet.nonePlantingTask,

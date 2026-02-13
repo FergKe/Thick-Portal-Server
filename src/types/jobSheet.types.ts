@@ -77,6 +77,16 @@ export type JobSheetRes<JobSheetType> =
     | { ok: boolean; jobSheet: JobSheetType }
     | { ok: boolean; message: string };
 
-export type JobSheetCreateReq = JobSheetType;
+export type JobSheetCreateReq = {
+    jobId: string,
+    planterId: string,
+    plants: PlantList[],
+    nonPlantingTask: NonPlantingList[],
+    notes: string
+};
 
-export type JobSheetUpdateReq = JobSheetType;
+export type JobSheetUpdateReq = {
+    plants?: PlantList[],
+    nonPlantingTask?: NonPlantingList[],
+    notes?: string
+};

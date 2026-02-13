@@ -4,6 +4,7 @@ import { type PlantList, type NonPlantingList } from "./jobSheet.types.js";
 export type TeamLeadJobSheetType = {
     _id: string,
     jobId: string,
+    clientName: string,
     teamLeadId: string,
     plants: PlantList[],
     nonePlantingTask: NonPlantingList[],
@@ -13,6 +14,7 @@ export type TeamLeadJobSheetType = {
 
 export type NewTeamLeadJobSheet = {
     jobId: Types.ObjectId,
+    clientName: string,
     teamLeadId: Types.ObjectId,
     plants: PlantList[],
     nonePlantingTask: NonPlantingList[],
@@ -22,6 +24,7 @@ export type NewTeamLeadJobSheet = {
 
 export type TeamLeadJobSheetFromDB = {
     _id: Types.ObjectId,
+    clientName: string,
     jobId: Types.ObjectId,
     teamLeadId: Types.ObjectId,
     plants: PlantList[],
@@ -44,6 +47,7 @@ export type TeamLeadJobSheetRes<TeamLeadJobSheetType> =
 
 export type TeamLeadJobSheetCreateReq = {
     jobId: string,
+    clientName: string,
     teamLeadId: string,
     plants: PlantList[],
     nonePlantingTask: NonPlantingList[],
@@ -52,6 +56,7 @@ export type TeamLeadJobSheetCreateReq = {
 };
 
 export type TeamLeadJobSheetUpdateReq = {
+    clientName?: string,
     plants?: PlantList[],
     nonePlantingTask?: NonPlantingList[],
     notes?: string,

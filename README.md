@@ -1,46 +1,58 @@
-# Thicket-Portal Backend API
+# Thicket Portal API
 
-## Project Description
-This project serves as the backend API for the Thicket Portal, a system designed to manage job sheets, planting tasks, non-planting tasks, jobs, and user profiles. It provides a robust and scalable foundation for data management and interaction, built with Node.js, Express, and TypeScript.
+**Note:** This project is currently under active development. More fixes, refactoring, and cleanups will be happening in future updates.
 
-## Features
-- **Job Management:** Create, read, update, and delete job records.
-- **Job Sheet Management:** Comprehensive CRUD operations for job sheets, including detailed planting and non-planting task information.
-- **Plant Management:** Manage plant species data.
-- **Non-Planting Task Management:** Handle various non-planting tasks associated with jobs.
-- **User Profile Management:** Securely manage user profiles and authentication.
-- **Error Handling:** Centralized error handling to provide consistent and informative responses.
+## API Endpoints
 
-## Technologies Used
-- **Node.js:** JavaScript runtime environment.
-- **Express.js:** Web application framework for Node.js.
-- **TypeScript:** Typed superset of JavaScript that compiles to plain JavaScript.
-- **Mongoose:** MongoDB object data modeling (ODM) for Node.js.
-- **MongoDB:** NoSQL database for storing application data.
-- **JSON Web Tokens (JWT):** For secure authentication and authorization.
+### User & Authentication (`/user`)
 
-## Folder Structure
-The project follows a modular structure to ensure maintainability and scalability:
+- `POST /signup` - Register a new Planter.
+- `POST /signup/manager` - Register a new Manager.
+- `POST /login` - Login as Planter.
+- `POST /login/manager` - Login as Manager.
+- `GET /planter` - Get all planters (Manager only).
+- `GET /planter/:_id` - Get specific planter profile.
+- `GET /manager/:_id` - Get specific manager profile (Manager only).
+- `PUT /planter/:_id` - Update planter profile.
+- `PUT /manager/:_id` - Update manager profile (Manager only).
 
-```
-.
-├───dist/                 # Compiled JavaScript output
-├───node_modules/         # Node.js dependencies
-├───src/
-│   ├───server.ts         # Main application entry point
-│   ├───config/           # Configuration files (e.g., database connection)
-│   ├───controllers/      # Request handlers for API endpoints
-│   ├───errors/           # Custom error classes
-│   ├───middleware/       # Express middleware
-│   ├───models/           # Mongoose schemas and models
-│   ├───routes/           # API route definitions
-│   ├───services/         # Business logic and database interactions
-│   ├───types/            # TypeScript type definitions
-│   └───utils/            # Utility functions (e.g., JWT helper)
-├───.env                  # Environment variables
-├───package.json          # Project metadata and dependencies
-├───package-lock.json     # Dependency lock file
-├───tsconfig.json         # TypeScript configuration
-└───README.md             # Project README
-```
+### Jobs (`/job`)
 
+- `POST /` - Create a new job (Manager only).
+- `GET /` - Get all jobs (Manager only).
+- `GET /:_id` - Get job details.
+- `PUT /:_id` - Update job details (Manager only).
+- `DELETE /:_id` - Delete a job (Manager only).
+
+### Job Sheets (`/jobSheet`)
+
+- `POST /` - Create a job sheet (Planter/TeamLead).
+- `GET /` - Get all job sheets (Manager only).
+- `GET /:_id` - Get job sheet details.
+- `GET /job/:_id` - Get all job sheets associated with a specific Job ID.
+- `PUT /:_id` - Update a job sheet (Planter/TeamLead).
+- `DELETE /:_id` - Delete a job sheet (Manager only).
+
+### Plants (`/plant`)
+
+- `GET /` - Get all plants.
+- `GET /:_id` - Get plant details (Manager only).
+- `POST /` - Create a new plant (Manager only).
+- `PUT /:_id` - Update plant details (Manager only).
+- `DELETE /:_id` - Delete a plant (Manager only).
+
+### Non-Planting Tasks (`/nonPlantingTask`)
+
+- `GET /` - Get all tasks.
+- `GET /:_id` - Get task details (Manager only).
+- `POST /` - Create a new task (Manager only).
+- `PUT /:_id` - Update task details (Manager only).
+- `DELETE /:_id` - Delete a task (Manager only).
+
+### Team Lead Job Sheets (`/teamleadjobsheet`)
+
+- `POST /` - Create a team lead job sheet (TeamLead only).
+- `GET /` - Get all team lead job sheets (Manager only).
+- `GET /:_id` - Get team lead job sheet details (Manager only).
+- `PUT /:_id` - Update team lead job sheet (TeamLead only).
+- `DELETE /:_id` - Delete team lead job sheet (Manager only).
