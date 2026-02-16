@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-    planterSignupController,
+    registerPlanterController,
     managerSignupController,
     planterLoginController,
     managerLoginController,
@@ -8,7 +8,8 @@ import {
     getPlanterProfileController,
     getManagerProfileController,
     updatePlanterProfileController,
-    updateManagerProfileController
+    updateManagerProfileController,
+    createPlanterController
 } from "../controllers/profile.controllers.js";
 import { authenticateMiddleware, authorisationManagers, authorisationPlanter } from "../middleware/authMiddleware.js";
 import { validateRequest } from "../validation/validators.js";
@@ -17,7 +18,8 @@ import { idSchema, loginSchema, signupSchema, updateProfileSchema } from "../val
 
 const router = Router();
 
-router.post('/signup', validateRequest({ body: signupSchema }), planterSignupController);
+router.post('/createPlanter', validateRequest({ body: signupSchema }), createPlanterController);
+router.post('/registerPlanter', registerPlanterController)
 router.post('/signup/manager', validateRequest({ body: signupSchema }), managerSignupController);
 router.post('/login', validateRequest({ body: loginSchema }), planterLoginController);
 router.post('/login/manager', validateRequest({ body: loginSchema }), managerLoginController);
@@ -28,3 +30,6 @@ router.put('/planter/:_id', validateRequest({ params: idSchema, body: updateProf
 router.put('/manager/:_id', validateRequest({ params: idSchema, body: updateProfileSchema }), authenticateMiddleware, authorisationManagers, updateManagerProfileController);
 
 export default router;
+
+// Manager creates Planter through email - Protected route for managers only
+// Planter gets email to register account (User Name, Password and PhoneNubmer) updateUser Api call 

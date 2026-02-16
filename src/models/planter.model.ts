@@ -1,11 +1,9 @@
 import { Schema, model, type InferSchemaType } from "mongoose";
-import bcrypt from "bcrypt";
 
 const planterSchema = new Schema({
     username: {
         type: String,
-        required: true,
-
+        required: false,
     },
     email: {
         type: String,
@@ -14,11 +12,11 @@ const planterSchema = new Schema({
     },
     password: {
         type: String,
-        required: true
+        required: false
     },
     phoneNumber: {
         type: String,
-        required: true,
+        required: false,
         unique: true
     },
     role: {
@@ -28,12 +26,6 @@ const planterSchema = new Schema({
     },
 });
 
-planterSchema.pre('save', async function () {
-    if (!this.isModified('password')) return;
-    
-    this.password = await bcrypt.hash(this.password, 8);
-});
+export type PlanterType = InferSchemaType<typeof planterSchema>;
 
-type Planter = InferSchemaType<typeof planterSchema>;
-
-export default model<Planter>("Planter", planterSchema); 
+export default model<PlanterType>("Planter", planterSchema); 

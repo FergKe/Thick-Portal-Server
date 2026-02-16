@@ -3,27 +3,31 @@ import Manager from "../models/manager.model.js"
 import bcrypt from "bcrypt"
 import { type HydratedDocument } from "mongoose"
 import {
-  type NewUser,
-  type UserSignupResBody,
-  type UserSignupReqBody,
+
   type UserLoginReqBody,
-  type LoginUserType,
-  type UserFromDB,
-  type UserType,
-  type UserUpdateReqBody
+  type UserUpdateReqBody,
+  type CreatePlanterResBody,
+  type CreatePlanterReqBody,
+  type RegisterPlanterReqBody,
+  type ManagerSignupReqBody,
+  type PlanterFromDB,
+  type PlanterRes,
+  type ManagerRes,
+  type ManagerFromDB,
+  type LoginPlanterType,
+  type LoginManagerType
 } from "../types/profile.types.js";
 import { AppError } from "../errors/AppError.js";
 import { signToken } from "../utils/jwt.js";
 
 export const createPlanter = async (
-    planter: UserSignupReqBody
+    planter: CreatePlanterReqBody
 ) => {
     try {
-        planter.role = "planter"
-        const newPlanter: HydratedDocument<NewUser> = await Planter.create(planter);
-        const resPlanter: UserSignupResBody = {
+        const newPlanter: HydratedDocument<CreatePlanterReqBody> = await Planter.create(planter);
+        const resPlanter: CreatePlanterResBody = {
             ok: true,
-            username: newPlanter.username,
+            message: `Planter created successfully, with ${newPlanter.email}`,
         };
         return resPlanter
 
@@ -40,16 +44,49 @@ export const createPlanter = async (
     }
 };
 
-export const createManager = async (
-    manager: UserSignupReqBody
+export const registerPlanter = async (
+    _id: string,
+    body: RegisterPlanterReqBody
 ) => {
     try {
-        const newManager: HydratedDocument<NewUser> = await Manager.create(manager);
-        const resManager: UserSignupResBody = {
-            ok: true,
-            username: newManager.username,
+        const hashedPassword = await bcrypt.hash(body.password, 8);
+        body.password = hashedPassword;
+
+        const registeredPlanter = await Planter.findByIdAndUpdate(
+            _id,
+            body,
+            { new: true }
+        ).lean<PlanterFromDB | null>();
+
+        if ( !registeredPlanter ) {
+            throw new AppError( 404, "Could not find Planter")
         };
-        return resManager
+
+        const token:string = signToken({
+            sub: registeredPlanter._id.toString(),
+            role: registeredPlanter.role
+        })
+
+        return { ok: true, token: token };
+
+    } catch ( error ) {
+        if ( error instanceof AppError ) throw error;
+
+        throw new AppError( 500, "Server Error" );
+    }
+};
+
+export const createManager = async (
+    manager: ManagerSignupReqBody
+) => {
+    try {
+        const newManager: HydratedDocument<ManagerFromDB> = await Manager.create(manager);
+        const token:string = signToken({
+            userId: newManager._id.toString(),
+            role: newManager.role
+        })
+
+        return { ok: true, token: token }
 
     } catch ( error: any) {
         if ( error.code === 110000 ) {
@@ -68,14 +105,10 @@ export const loginPlanter = async (
     planterLogin: UserLoginReqBody
 ) => {
     try {
-        const existingPlanter = await Planter.findOne({email: planterLogin.email}).lean<LoginUserType | null>();
+        const existingPlanter = await Planter.findOne({email: planterLogin.email}).lean<LoginPlanterType | null>();
         
         if ( !existingPlanter ) {
             throw new AppError( 401, "Invalid email" );
-        };
-
-        if ( existingPlanter.username !== planterLogin.username ) {
-            throw new AppError( 401, "Invalid username" );
         };
 
         const isPasswordMatch: Boolean = await bcrypt.compare( 
@@ -108,14 +141,10 @@ export const loginManager = async (
     managerLogin: UserLoginReqBody
 ) => {
     try {
-        const existingManager = await Manager.findOne({email: managerLogin.email}).lean<LoginUserType | null>();
+        const existingManager = await Manager.findOne({email: managerLogin.email}).lean<LoginManagerType | null>();
         
         if ( !existingManager ) {
             throw new AppError( 401, "Invalid email" );
-        };
-
-        if ( existingManager.username !== managerLogin.username ) {
-            throw new AppError( 401, "Invalid username" );
         };
 
         const isPasswordMatch: Boolean = await bcrypt.compare( 
@@ -146,13 +175,13 @@ export const loginManager = async (
 
 export const getAllPlanters = async () => {
     try {
-        const planters = await Planter.find().lean<UserFromDB[] | null>();
+        const planters = await Planter.find().lean<PlanterFromDB[] | null>();
 
         if ( !planters  ) {
             throw new AppError( 404, "No planters found" )
         };
 
-        const updatedPlanter: UserType[] = planters.map((planter) => ({
+        const updatedPlanter: PlanterRes[] = planters.map((planter) => ({
             ...planter,
             _id: planter._id.toString()
         }))
@@ -170,15 +199,15 @@ export const getPlanterById = async (
     _id: string
 ) => {
     try { 
-        const planter = await Planter.findById(_id).lean<UserFromDB | null>();
+        const planter = await Planter.findById(_id).lean<PlanterFromDB | null>();
 
         if ( !planter ) {
             throw new AppError ( 404, "No planter found")
         };
 
-        const planterIdToString: UserType = { ...planter, _id: planter._id.toString()} 
+        const planterIdToString: PlanterRes = { ...planter, _id: planter._id.toString()};
 
-        return { ok: true, user: planterIdToString }
+        return { ok: true, planter: planterIdToString }
 
     } catch ( error: any ) {
         throw new AppError( 500, "server error");
@@ -189,15 +218,15 @@ export const getManagerById = async (
     _id: string
 ) => {
     try { 
-        const manager = await Manager.findById(_id).lean<UserFromDB | null>();
+        const manager = await Manager.findById(_id).lean<ManagerFromDB| null>();
 
         if ( !manager ) {
             throw new AppError ( 404, "No manager found")
         };
 
-        const ManagerIdToString: UserType = { ...manager, _id: manager._id.toString()} 
+        const ManagerIdToString: ManagerRes = { ...manager, _id: manager._id.toString()} 
 
-        return { ok: true, user: ManagerIdToString }
+        return { ok: true, manager: ManagerIdToString }
 
     } catch ( error: any ) {
         if ( error instanceof AppError ) throw error;
@@ -215,21 +244,18 @@ export const updatePlanter = async (
             _id,
             body,
             { new: true }
-        ).lean<UserFromDB| null>();
+        ).lean<PlanterFromDB| null>();
 
         if ( !updatedPlanter ) {
             throw new AppError( 404, "Could not find planter")
         };
 
-        const resPlanter: UserType = {
+        const resPlanter: PlanterRes = {
+            ...updatedPlanter,
             _id: updatedPlanter._id.toString(),
-            username: updatedPlanter.username,
-            email: updatedPlanter.email,
-            phoneNumber: updatedPlanter.phoneNumber,
-            role: updatedPlanter.role
         };
 
-        return { ok: true, user: resPlanter }
+        return { ok: true, planter: resPlanter }
 
     } catch ( error: any ){
         if ( error instanceof AppError ) throw error;
@@ -247,21 +273,18 @@ export const updateManager = async (
             _id,
             body,
             { new: true }
-        ).lean<UserFromDB | null>();
+        ).lean<ManagerFromDB | null>();
 
         if ( !updatedManager ) {
             throw new AppError( 404, "Could not find updatedManager")
         };
 
-        const resupdatedManager: UserType = {
+        const resupdatedManager: ManagerRes = {
+            ...updatedManager,
             _id: updatedManager._id.toString(),
-            username: updatedManager.username,
-            email: updatedManager.email,
-            phoneNumber: updatedManager.phoneNumber,
-            role: updatedManager.role
         };
 
-        return { ok: true, user: resupdatedManager }
+        return { ok: true, manager: resupdatedManager };
 
     } catch ( error: any ) {
         if ( error instanceof AppError ) throw error;

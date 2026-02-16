@@ -8,11 +8,11 @@ import teamLeadJobSheetRoutes from "./teamLeadJobSheet.routes.js";
 
 const router = Router();
 
-router.use("/user", profileRoutes);
-router.use("/job", jobRoutes);
-router.use("/jobSheet", jobSheetRoutes);
-router.use("/plant", plantRoutes);
-router.use("/nonPlantingTask", nonPlantingTaskRoutes);
-router.use("/teamleadjobsheet", teamLeadJobSheetRoutes);
+router.use("/api/user", profileRoutes);
+router.use("/api/job", jobRoutes);
+router.use("/api/jobSheet", jobSheetRoutes);
+router.use("/api/plant", plantRoutes);
+router.use("/api/nonPlantingTask", nonPlantingTaskRoutes);
+router.use("/api/teamleadjobsheet", teamLeadJobSheetRoutes);
 
 export default router;

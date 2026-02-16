@@ -8,7 +8,8 @@ const managerSchema = new Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password: {
         type: String,
@@ -16,7 +17,8 @@ const managerSchema = new Schema({
     },
     phoneNumber: {
         type: String,
-        required: true
+        required: false,
+        unique: true
     },
     role: {
         type: String,
@@ -32,6 +34,6 @@ managerSchema.pre('save', async function () {
     this.password = await bcrypt.hash(this.password, 8);
 });
 
-type Manager = InferSchemaType<typeof managerSchema>;
+export type ManagerType = InferSchemaType<typeof managerSchema>;
 
-export default model<Manager>("Manager", managerSchema); 
+export default model<ManagerType>("Manager", managerSchema); 

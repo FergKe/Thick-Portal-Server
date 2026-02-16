@@ -1,14 +1,18 @@
 import { type NextFunction, type Request, type Response } from "express";
 import {
-  type UserSignupResBody,
-  type UserSignupReqBody,
   type UserLoginResBody,
   type UserLoginReqBody,
-  type UsersRes,
-  type UserType,
   type UserParams,
-  type UserRes,
-  type UserUpdateReqBody
+  type UserUpdateReqBody,
+  type CreatePlanterResBody,
+  type CreatePlanterReqBody,
+  type RegisterPlanterReqBody,
+  type ManagerSignupReqBody,
+  type PlanterResBody,
+  type PlanterRes,
+  type ManagerResBody,
+  type ManagerRes,
+  type PlantersRes
 } from "../types/profile.types.js";
 import {
   createPlanter,
@@ -19,14 +23,15 @@ import {
   getPlanterById,
   getManagerById,
   updatePlanter,
-  updateManager
+  updateManager,
+  registerPlanter
 } from "../services/profile.services.js";
 
 
 
-export const planterSignupController = async (
-  req: Request<{}, UserSignupResBody, UserSignupReqBody>,
-  res: Response<UserSignupResBody>,
+export const createPlanterController = async (
+  req: Request<{}, {}, CreatePlanterReqBody>,
+  res: Response<CreatePlanterResBody>,
   next: NextFunction
 ) => {
   try {
@@ -39,9 +44,25 @@ export const planterSignupController = async (
   }
 };
 
+export const registerPlanterController = async (
+  req: Request<UserParams, {}, RegisterPlanterReqBody>,
+  res: Response<UserLoginResBody>,
+  next: NextFunction
+) => {
+  try {
+    const { _id } = req.params;
+    const body = req.body;
+    const resPlanter = await registerPlanter(_id, body);
+
+    res.status(201).json(resPlanter);
+  } catch ( error ) {
+    next(error);
+  };
+};
+
 export const managerSignupController = async (
-  req: Request<{}, UserSignupResBody,UserSignupReqBody>,
-  res: Response<UserSignupResBody>,
+  req: Request<{}, {}, ManagerSignupReqBody>,
+  res: Response<UserLoginResBody>,
   next: NextFunction
 ) => {
   try {
@@ -55,7 +76,7 @@ export const managerSignupController = async (
 };
 
 export const planterLoginController = async (
-  req: Request<{}, UserLoginResBody,UserLoginReqBody>,
+  req: Request<{}, UserLoginResBody, UserLoginReqBody>,
   res: Response<UserLoginResBody>,
   next: NextFunction
 ) => {
@@ -85,8 +106,8 @@ export const managerLoginController = async (
 };
 
 export const getAllPlantersController = async (
-  req: Request<{}, UsersRes<UserType>>,
-  res: Response <UsersRes<UserType>>,
+  req: Request<{}, PlantersRes<PlanterRes>>,
+  res: Response <PlantersRes<PlanterRes>>,
   next: NextFunction
 ) => {
   try {
@@ -99,8 +120,8 @@ export const getAllPlantersController = async (
 };
 
 export const getPlanterProfileController = async (
-  req: Request<UserParams, UserRes<UserType>>,
-  res: Response<UserRes<UserType>>,
+  req: Request<UserParams, PlanterResBody<PlanterRes>>,
+  res: Response<PlanterResBody<PlanterRes>>,
   next: NextFunction
 ) => {
   try {
@@ -114,8 +135,8 @@ export const getPlanterProfileController = async (
 };
 
 export const getManagerProfileController = async (
-  req: Request<UserParams, UserRes<UserType>>,
-  res: Response<UserRes<UserType>>,
+  req: Request<UserParams, ManagerResBody<ManagerRes>>,
+  res: Response<ManagerResBody<ManagerRes>>,
   next: NextFunction
 ) => {
   try {
@@ -129,8 +150,8 @@ export const getManagerProfileController = async (
 };
 
 export const updatePlanterProfileController = async (
-  req: Request<UserParams, UserRes<UserType>, UserUpdateReqBody>, 
-  res: Response<UserRes<UserType>>,
+  req: Request<UserParams, PlanterResBody<PlanterRes>, UserUpdateReqBody>, 
+  res: Response<PlanterResBody<PlanterRes>>,
   next: NextFunction
 ) => {
   try {
@@ -145,8 +166,8 @@ export const updatePlanterProfileController = async (
 };
 
 export const updateManagerProfileController = async (
-  req: Request<UserParams, UserRes<UserType>, UserUpdateReqBody>, 
-  res: Response<UserRes<UserType>>,
+  req: Request<UserParams, ManagerResBody<ManagerRes>, UserUpdateReqBody>, 
+  res: Response<ManagerResBody<ManagerRes>>,
   next: NextFunction
 ) => {
   try {
