@@ -18,7 +18,7 @@ import {
   type LoginManagerType
 } from "../types/profile.types.js";
 import { AppError } from "../errors/AppError.js";
-import { signToken } from "../utils/jwt.js";
+import { signToken, verifyToken } from "../utils/jwt.js";
 
 export const createPlanter = async (
     planter: CreatePlanterReqBody
@@ -290,5 +290,36 @@ export const updateManager = async (
         if ( error instanceof AppError ) throw error;
 
         throw new AppError( 500, "Server Error");
+    }
+};
+
+export const getMeProfile = async (token: string) => {
+    try {
+        const payload = verifyToken(token) as any;
+        const id = payload.sub || payload.userId;
+        const role = payload.role;
+
+        if (!id) {
+            throw new AppError(401, "Invalid token payload");
+        }
+
+        if (role === "manager") {
+            const manager = await Manager.findById(id).lean<ManagerFromDB | null>();
+            if (!manager) {
+                throw new AppError(404, "Manager not found");
+            }
+            return { ok: true, profile: { ...manager, _id: manager._id.toString() } };
+        } else if (role === "planter" || role === "teamlead") {
+            const planter = await Planter.findById(id).lean<PlanterFromDB | null>();
+            if (!planter) {
+                throw new AppError(404, "Planter not found");
+            }
+            return { ok: true, profile: { ...planter, _id: planter._id.toString() } };
+        } else {
+            throw new AppError(403, "Invalid role");
+        }
+    } catch (error: any) {
+        if (error instanceof AppError) throw error;
+        throw new AppError(401, "Invalid or expired token");
     }
 };

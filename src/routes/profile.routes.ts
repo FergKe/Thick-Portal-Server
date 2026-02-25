@@ -9,7 +9,8 @@ import {
     getManagerProfileController,
     updatePlanterProfileController,
     updateManagerProfileController,
-    createPlanterController
+    createPlanterController,
+    getMeController
 } from "../controllers/profile.controllers.js";
 import { authenticateMiddleware, authorisationManagers, authorisationPlanter } from "../middleware/authMiddleware.js";
 import { validateRequest } from "../validation/validators.js";
@@ -34,6 +35,7 @@ router.post('/registerPlanter', registerPlanterController)
 router.post('/signup/manager', validateRequest({ body: signupSchema }), managerSignupController);
 router.post('/login', validateRequest({ body: loginSchema }), planterLoginController);
 router.post('/login/manager', validateRequest({ body: loginSchema }), managerLoginController);
+router.get('/me', getMeController);
 router.get('/planter', getAllPlantersController);
 router.get('/planter/:_id', validateRequest({ params: idSchema }), getPlanterProfileController);
 router.get('/manager/:_id', validateRequest({ params: idSchema }), getManagerProfileController);

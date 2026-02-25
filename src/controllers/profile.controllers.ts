@@ -24,7 +24,8 @@ import {
   getManagerById,
   updatePlanter,
   updateManager,
-  registerPlanter
+  registerPlanter,
+  getMeProfile
 } from "../services/profile.services.js";
 
 export const createPlanterController = async (
@@ -174,6 +175,24 @@ export const updateManagerProfileController = async (
     const manager = await updateManager(_id, body);
 
     res.status(200).json(manager);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getMeController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) {
+      res.status(401).json({ message: "No token provided" });
+      return;
+    }
+    const profile = await getMeProfile(token);
+    res.status(200).json(profile);
   } catch (error) {
     next(error);
   }
