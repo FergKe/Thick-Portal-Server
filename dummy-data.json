@@ -53,12 +53,12 @@
   },
   "job": {
     "create": {
-      "jobName": "JSON Test Job",
-      "client": "JSON Test Client",
+      "jobName": "West Coast",
+      "client": "AgFlow",
       "location": "JSON Test Location",
       "description": "JSON Test Description",
-      "teamLead": "",
-      "crew": ["60d5f9f8f8a8f8a8f8a8f8a8", "60d5f9f8f8a8f8a8f8a8f8a9"]
+      "teamLead": "698ce79f0df19d4c51fdb915",
+      "crew": ["698cdbd5e7d0a8520527c1e5", "698ce79f0df19d4c51fdb915"]
     },
     "update": {
       "client": "Updated JSON Client"

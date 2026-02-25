@@ -22,8 +22,6 @@ export type UserParams = {
     _id: string,
 };
 
-
-
 export type UserLoginReqBody = {
     password: string,
     email: string,

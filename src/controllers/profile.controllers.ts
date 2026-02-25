@@ -27,8 +27,6 @@ import {
   registerPlanter
 } from "../services/profile.services.js";
 
-
-
 export const createPlanterController = async (
   req: Request<{}, {}, CreatePlanterReqBody>,
   res: Response<CreatePlanterResBody>,

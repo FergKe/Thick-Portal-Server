@@ -18,18 +18,27 @@ import { idSchema, loginSchema, signupSchema, updateProfileSchema } from "../val
 
 const router = Router();
 
+// router.post('/createPlanter', validateRequest({ body: signupSchema }), createPlanterController);
+// router.post('/registerPlanter', registerPlanterController)
+// router.post('/signup/manager', validateRequest({ body: signupSchema }), managerSignupController);
+// router.post('/login', validateRequest({ body: loginSchema }), planterLoginController);
+// router.post('/login/manager', validateRequest({ body: loginSchema }), managerLoginController);
+// router.get('/planter', authenticateMiddleware, authorisationManagers, getAllPlantersController);
+// router.get('/planter/:_id', validateRequest({ params: idSchema }), authenticateMiddleware, getPlanterProfileController);
+// router.get('/manager/:_id', validateRequest({ params: idSchema }), authenticateMiddleware, authorisationManagers, getManagerProfileController);
+// router.put('/planter/:_id', validateRequest({ params: idSchema, body: updateProfileSchema }), authenticateMiddleware, authorisationPlanter, updatePlanterProfileController);
+// router.put('/manager/:_id', validateRequest({ params: idSchema, body: updateProfileSchema }), authenticateMiddleware, authorisationManagers, updateManagerProfileController);
+
 router.post('/createPlanter', validateRequest({ body: signupSchema }), createPlanterController);
 router.post('/registerPlanter', registerPlanterController)
 router.post('/signup/manager', validateRequest({ body: signupSchema }), managerSignupController);
 router.post('/login', validateRequest({ body: loginSchema }), planterLoginController);
 router.post('/login/manager', validateRequest({ body: loginSchema }), managerLoginController);
-router.get('/planter', authenticateMiddleware, authorisationManagers, getAllPlantersController);
-router.get('/planter/:_id', validateRequest({ params: idSchema }), authenticateMiddleware, getPlanterProfileController);
-router.get('/manager/:_id', validateRequest({ params: idSchema }), authenticateMiddleware, authorisationManagers, getManagerProfileController);
-router.put('/planter/:_id', validateRequest({ params: idSchema, body: updateProfileSchema }), authenticateMiddleware, authorisationPlanter, updatePlanterProfileController);
-router.put('/manager/:_id', validateRequest({ params: idSchema, body: updateProfileSchema }), authenticateMiddleware, authorisationManagers, updateManagerProfileController);
+router.get('/planter', getAllPlantersController);
+router.get('/planter/:_id', validateRequest({ params: idSchema }), getPlanterProfileController);
+router.get('/manager/:_id', validateRequest({ params: idSchema }), getManagerProfileController);
+router.put('/planter/:_id', validateRequest({ params: idSchema, body: updateProfileSchema }), updatePlanterProfileController);
+router.put('/manager/:_id', validateRequest({ params: idSchema, body: updateProfileSchema }), updateManagerProfileController);
 
 export default router;
 
-// Manager creates Planter through email - Protected route for managers only
-// Planter gets email to register account (User Name, Password and PhoneNubmer) updateUser Api call 

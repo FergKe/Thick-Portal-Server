@@ -10,11 +10,8 @@ export const signupSchema = Joi.object({
 });
 
 export const loginSchema = Joi.object({
-    username: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_]+$/).required(),
     password: Joi.string().min(8).max(30).pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/).required(),
     email: Joi.string().email().required(),
-
-    role: Joi.string().valid(['manager', 'planter', 'teamLead']).required(),
 });
 
 export const updateProfileSchema = Joi.object({
@@ -23,7 +20,7 @@ export const updateProfileSchema = Joi.object({
 })
 
 export const createPlantSchema = Joi.object({
-    plantName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_]+$/).required(),
+    plantName: Joi.string().min(2).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
     basePrice: Joi.number().required(),
     unsemi: Joi.number().required(),
     compacted: Joi.number().required(),
@@ -32,7 +29,7 @@ export const createPlantSchema = Joi.object({
 });
 
 export const updatePlantSchema = Joi.object({
-    plantName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_]+$/).optional(),
+    plantName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).optional(),
     basePrice: Joi.number().optional(),
     unsemi: Joi.number().optional(),
     compacted: Joi.number().optional(),
@@ -45,30 +42,30 @@ export const idSchema = Joi.object({
 });
 
 export const createTaskSchema = Joi.object({
-    taskName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_]+$/).required(),
+    taskName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
     pricePerHour: Joi.number().required(),
 });
 
 export const updateTaskSchema = Joi.object({
-    taskName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_]+$/).required(),
+    taskName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
     pricePerHour: Joi.number().required(),
 });
 
 export const createJobSchema = Joi.object({
-    jobName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_]+$/).required(),
-    client: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_]+$/).required(),
-    location: Joi.string().min(3).max(50).pattern(/^[a-zA-Z0-9_]+$/).required(),
-    description: Joi.string().min(3).max(100).pattern(/^[a-zA-Z0-9_]+$/).required(),
+    jobName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
+    client: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
+    location: Joi.string().min(3).max(50).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
+    description: Joi.string().min(3).max(300).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
     crew: Joi.array().items(Joi.string().hex().length(24)).required(),
     teamLead: Joi.string().hex().length(24).required(),
 });
 
 export const updateJobSchema = Joi.object({
-    description: Joi.string().min(3).max(100).pattern(/^[a-zA-Z0-9_]+$/).required(),
-    crew: Joi.array().items(Joi.string().hex().length(24)).required(),
-    teamLead: Joi.string().hex().length(24).required(),
-    jobSheets: Joi.array().items(Joi.string().hex().length(24)).required(),
-    status: Joi.string().valid(['in_progress', 'completed']).required(),
+    description: Joi.string().min(3).max(300).pattern(/^[a-zA-Z0-9_ ]+$/).optional(),
+    crew: Joi.array().items(Joi.string().hex().length(24)).optional(),
+    teamLead: Joi.string().hex().length(24).optional(),
+    jobSheets: Joi.array().items(Joi.string().hex().length(24)).optional(),
+    status: Joi.string().valid('in_progress', 'completed').optional(),
 });
 
 export const createJobSheetSchema = Joi.object({
@@ -76,7 +73,7 @@ export const createJobSheetSchema = Joi.object({
     planterId: Joi.string().hex().length(24).required(),
     plants: Joi.array().items(Joi.object({
         plantId: Joi.string().hex().length(24).required(),
-        plantName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_]+$/).required(),
+        plantName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
         quantity: Joi.number().required(),
         basePrice: Joi.number().optional(),
         unsemi: Joi.number().optional(),
@@ -86,18 +83,18 @@ export const createJobSheetSchema = Joi.object({
     })).optional(),
     nonPlantingTask: Joi.array().items(Joi.object({
         taskId: Joi.string().hex().length(24).required(),
-        taskName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_]+$/).required(),
-        taskDescription: Joi.string().min(3).max(100).pattern(/^[a-zA-Z0-9_]+$/).required(),
+        taskName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
+        taskDescription: Joi.string().min(3).max(100).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
         timeStart: Joi.date().required(),
         timeEnd: Joi.date().required(),
     })).optional(),
-    notes: Joi.string().min(3).max(100).pattern(/^[a-zA-Z0-9_]+$/).required(),
+    notes: Joi.string().min(3).max(100).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
 });
 
 export const updateJobSheetSchema = Joi.object({
     plants: Joi.array().items(Joi.object({
         plantId: Joi.string().hex().length(24).required(),
-        plantName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_]+$/).required(),
+        plantName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
         quantity: Joi.number().required(),
         basePrice: Joi.number().optional(),
         unsemi: Joi.number().optional(),
@@ -107,21 +104,21 @@ export const updateJobSheetSchema = Joi.object({
     })).optional(),
     nonPlantingTask: Joi.array().items(Joi.object({
         taskId: Joi.string().hex().length(24).required(),
-        taskName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_]+$/).required(),
-        taskDescription: Joi.string().min(3).max(100).pattern(/^[a-zA-Z0-9_]+$/).required(),
+        taskName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
+        taskDescription: Joi.string().min(3).max(100).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
         timeStart: Joi.date().required(),
         timeEnd: Joi.date().required(),
     })).optional(),
-    notes: Joi.string().min(3).max(100).pattern(/^[a-zA-Z0-9_]+$/).optional(),
+    notes: Joi.string().min(3).max(100).pattern(/^[a-zA-Z0-9_ ]+$/).optional(),
 });
 
 export const createTeamLeadJobSheetSchema = Joi.object({
     jobId: Joi.string().hex().length(24).required(),
     teamLeadId: Joi.string().hex().length(24).required(),
-    clientName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_]+$/).required(),
+    clientName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
     plants: Joi.array().items(Joi.object({
         plantId: Joi.string().hex().length(24).required(),
-        plantName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_]+$/).required(),
+        plantName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
         quantity: Joi.number().required(),
         basePrice: Joi.number().optional(),
         unsemi: Joi.number().optional(),
@@ -131,19 +128,19 @@ export const createTeamLeadJobSheetSchema = Joi.object({
     })).optional(),
     nonPlantingTask: Joi.array().items(Joi.object({
         taskId: Joi.string().hex().length(24).required(),
-        taskName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_]+$/).required(),
-        taskDescription: Joi.string().min(3).max(100).pattern(/^[a-zA-Z0-9_]+$/).required(),
+        taskName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
+        taskDescription: Joi.string().min(3).max(100).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
         timeStart: Joi.date().required(),
         timeEnd: Joi.date().required(),
     })).optional(),
-    notes: Joi.string().min(3).max(100).pattern(/^[a-zA-Z0-9_]+$/).required(),
+    notes: Joi.string().min(3).max(100).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
 });
 
 export const updateTeamLeadJobSheetSchema = Joi.object({
-    clientName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_]+$/).required(),
+    clientName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
     plants: Joi.array().items(Joi.object({
         plantId: Joi.string().hex().length(24).required(),
-        plantName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_]+$/).required(),
+        plantName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
         quantity: Joi.number().required(),
         basePrice: Joi.number().optional(),
         unsemi: Joi.number().optional(),
@@ -153,10 +150,10 @@ export const updateTeamLeadJobSheetSchema = Joi.object({
     })).optional(),
     nonPlantingTask: Joi.array().items(Joi.object({
         taskId: Joi.string().hex().length(24).required(),
-        taskName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_]+$/).required(),
-        taskDescription: Joi.string().min(3).max(100).pattern(/^[a-zA-Z0-9_]+$/).required(),
+        taskName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
+        taskDescription: Joi.string().min(3).max(100).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
         timeStart: Joi.date().required(),
         timeEnd: Joi.date().required(),
     })).optional(),
-    notes: Joi.string().min(3).max(100).pattern(/^[a-zA-Z0-9_]+$/).optional(),
+    notes: Joi.string().min(3).max(100).pattern(/^[a-zA-Z0-9_ ]+$/).optional(),
 });
