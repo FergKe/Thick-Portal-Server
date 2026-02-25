@@ -15,10 +15,12 @@ import {
   type ManagerRes,
   type ManagerFromDB,
   type LoginPlanterType,
-  type LoginManagerType
+  type LoginManagerType,
+  type ManagerCleanReqBody
 } from "../types/profile.types.js";
 import { AppError } from "../errors/AppError.js";
 import { signToken, verifyToken } from "../utils/jwt.js";
+import type { JwtPayloadType } from "../types/auth.Types.js";
 
 export const createPlanter = async (
     planter: CreatePlanterReqBody
@@ -80,13 +82,27 @@ export const createManager = async (
     manager: ManagerSignupReqBody
 ) => {
     try {
-        const newManager: HydratedDocument<ManagerFromDB> = await Manager.create(manager);
+        const cleanManager: ManagerCleanReqBody = {
+            username: manager.username,
+            email: manager.email,
+            password: manager.password,
+        }
+        console.log(cleanManager);
+        const newManager: HydratedDocument<ManagerFromDB> = await Manager.create(cleanManager);
+        console.log(newManager);
         const token:string = signToken({
             userId: newManager._id.toString(),
             role: newManager.role
-        })
+        });
 
-        return { ok: true, token: token }
+        const resManager = {
+            _id: newManager._id.toString(),
+            username: newManager.username,
+            email: newManager.email,
+            role: newManager.role
+        };
+
+        return { ok: true, token: token, user: resManager }
 
     } catch ( error: any) {
         if ( error.code === 110000 ) {
@@ -97,7 +113,7 @@ export const createManager = async (
             throw new AppError( 400, error.message );
         };
 
-        throw new AppError ( 500, "Server error" );
+        throw new AppError ( 500, `${error.message}` );
     }
 };
 
@@ -122,9 +138,15 @@ export const loginPlanter = async (
         const token:string = signToken({
             sub: existingPlanter._id.toString(),
             role: existingPlanter.role
-        })
+        });
+        
+        const resPlanter = {
+            ...existingPlanter,
+            _id: existingPlanter._id.toString(),
+        };
 
-        return {ok: true, token: token};
+
+        return {ok: true, token: token, user: resPlanter};
 
     } catch ( error: any ) {
         if ( error instanceof AppError ) throw error;
@@ -155,12 +177,17 @@ export const loginManager = async (
             throw new AppError( 401, "Invalid password")
         };
 
+        const resManager = {
+            ...existingManager,
+            _id: existingManager._id.toString(),
+        };
+
         const token:string = signToken({
             userId: existingManager._id.toString(),
             role: existingManager.role
         })
 
-        return {ok: true, token: token};
+        return {ok: true, token: token, user: resManager};
 
     } catch ( error: any ) {
         if ( error instanceof AppError ) throw error;
@@ -295,8 +322,8 @@ export const updateManager = async (
 
 export const getMeProfile = async (token: string) => {
     try {
-        const payload = verifyToken(token) as any;
-        const id = payload.sub || payload.userId;
+        const payload: JwtPayloadType = verifyToken(token);
+        const id = payload.sub
         const role = payload.role;
 
         if (!id) {

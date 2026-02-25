@@ -12,7 +12,9 @@ import {
   type PlanterRes,
   type ManagerResBody,
   type ManagerRes,
-  type PlantersRes
+  type PlantersRes,
+  type PlanterLoginResBody,
+  type ManagerLoginResBody
 } from "../types/profile.types.js";
 import {
   createPlanter,
@@ -61,7 +63,7 @@ export const registerPlanterController = async (
 
 export const managerSignupController = async (
   req: Request<{}, {}, ManagerSignupReqBody>,
-  res: Response<UserLoginResBody>,
+  res: Response<ManagerLoginResBody<ManagerRes>>,
   next: NextFunction
 ) => {
   try {
@@ -75,8 +77,8 @@ export const managerSignupController = async (
 };
 
 export const planterLoginController = async (
-  req: Request<{}, UserLoginResBody, UserLoginReqBody>,
-  res: Response<UserLoginResBody>,
+  req: Request<{}, {}, UserLoginReqBody>,
+  res: Response<PlanterLoginResBody<PlanterRes>>,
   next: NextFunction
 ) => {
   try {
@@ -90,8 +92,8 @@ export const planterLoginController = async (
 };
 
 export const managerLoginController = async (
-  req: Request<{}, UserLoginResBody,UserLoginReqBody>, 
-  res: Response<UserLoginResBody>,
+  req: Request<{}, {},UserLoginReqBody>, 
+  res: Response<ManagerLoginResBody<ManagerRes>>,
   next: NextFunction
 ) => {
   try {

@@ -18,7 +18,8 @@ const managerSchema = new Schema({
     phoneNumber: {
         type: String,
         required: false,
-        unique: true
+        unique: true,
+        sparse:true
     },
     role: {
         type: String,

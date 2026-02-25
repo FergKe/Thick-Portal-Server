@@ -28,7 +28,15 @@ export type UserLoginReqBody = {
 };
 
 export type UserLoginResBody = 
-    | { ok: boolean; token: string, }
+    | { ok: boolean; token: string }
+    | { ok: boolean; message: string};
+
+export type PlanterLoginResBody<PlanterRes> = 
+    | { ok: boolean; token: string, user: PlanterRes}
+    | { ok: boolean; message: string};
+
+export type ManagerLoginResBody<ManagerRes> = 
+    | { ok: boolean; token: string, user: ManagerRes }
     | { ok: boolean; message: string};
 
 export type LoginReqBody = {
@@ -123,5 +131,12 @@ export type ManagerResBody<ManagerRes> =
 export type ManagerSignupReqBody = {
     username: string,
     password: string,
+    repeatPassword: string,
     email: string,
 };
+
+export type ManagerCleanReqBody = {
+    username: string,
+    password: string,
+    email: string
+}
