@@ -56,9 +56,15 @@ export const registerPlanter = async (
         const hashedPassword = await bcrypt.hash(body.password, 8);
         body.password = hashedPassword;
 
+        const cleanBody = {
+            username: body.username,
+            password: body.password,
+            phoneNumber: body.phoneNumber,
+        }
+
         const registeredPlanter = await Planter.findByIdAndUpdate(
             _id,
-            body,
+            cleanBody,
             { new: true }
         ).lean<PlanterFromDB | null>();
 
@@ -66,12 +72,17 @@ export const registerPlanter = async (
             throw new AppError( 404, "Could not find Planter")
         };
 
+        const resPlanter = {
+            ...registeredPlanter,
+            _id: registeredPlanter._id.toString()
+        }
+
         const token:string = signToken({
             sub: registeredPlanter._id.toString(),
             role: registeredPlanter.role
         })
 
-        return { ok: true, token: token };
+        return { ok: true, token: token, user: resPlanter };
 
     } catch ( error ) {
         if ( error instanceof AppError ) throw error;

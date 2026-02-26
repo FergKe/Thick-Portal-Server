@@ -31,6 +31,10 @@ export type UserLoginResBody =
     | { ok: boolean; token: string }
     | { ok: boolean; message: string};
 
+export type PlanterRegisterResBody<PlanterRes> = 
+    | { ok: boolean; token: string; user: PlanterRes }
+    | { ok: boolean; message: string};
+
 export type PlanterLoginResBody<PlanterRes> = 
     | { ok: boolean; token: string, user: PlanterRes}
     | { ok: boolean; message: string};
@@ -53,6 +57,7 @@ export type UserUpdateReqBody = Partial <{
 export type RegisterPlanterReqBody = {
     username: string,
     password: string,
+    repeatPassword: string,
     phoneNumber: string
 };
 

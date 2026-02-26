@@ -47,7 +47,7 @@ export const createPlanterController = async (
 
 export const registerPlanterController = async (
   req: Request<UserParams, {}, RegisterPlanterReqBody>,
-  res: Response<UserLoginResBody>,
+  res: Response<PlanterLoginResBody<PlanterRes>>,
   next: NextFunction
 ) => {
   try {
