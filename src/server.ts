@@ -1,6 +1,7 @@
 import "dotenv/config"
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { connectDB } from "./config/db.js";
 import router from "./routes/router.js";
 import { errorHandlingMiddleware } from "./middleware/errorMiddleware.js";
@@ -12,6 +13,7 @@ app.use(cors({
     origin: process.env.FRONTEND_URL || "http://localhost:3000",
     credentials: true
 }));
+app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.json());
 app.use('/', router);
 
