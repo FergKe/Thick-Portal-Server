@@ -29,6 +29,14 @@ import {
   registerPlanter,
   getMeProfile
 } from "../services/profile.services.js";
+import type { AuthRequest } from "../types/auth.Types.js";
+
+const COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "strict" as const,
+  maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+};
 
 export const createPlanterController = async (
   req: Request<{}, {}, CreatePlanterReqBody>,
@@ -53,9 +61,10 @@ export const registerPlanterController = async (
   try {
     const { _id } = req.params;
     const body = req.body;
-    const resPlanter = await registerPlanter(_id, body);
+    const { token, ...resData } = await registerPlanter(_id, body);
 
-    res.status(201).json(resPlanter);
+    res.cookie("token", token, COOKIE_OPTIONS);
+    res.status(201).json(resData);
   } catch ( error ) {
     next(error);
   };
@@ -68,9 +77,10 @@ export const managerSignupController = async (
 ) => {
   try {
     const manager = req.body;
-    const resManager = await createManager(manager);
+    const { token, ...resData } = await createManager(manager);
 
-    res.status(201).json(resManager);
+    res.cookie("token", token, COOKIE_OPTIONS);
+    res.status(201).json(resData);
   } catch (error) {
     next(error);
   };
@@ -83,9 +93,10 @@ export const planterLoginController = async (
 ) => {
   try {
     const planterLogin = req.body;
-    const resLogin = await loginPlanter(planterLogin); 
+    const { token, ...resData } = await loginPlanter(planterLogin); 
 
-    res.status(200).json(resLogin);
+    res.cookie("token", token, COOKIE_OPTIONS);
+    res.status(200).json(resData);
   } catch (error) {
     next(error);
   }
@@ -98,9 +109,10 @@ export const managerLoginController = async (
 ) => {
   try {
     const managerLogin = req.body;
-    const resLogin = await loginManager(managerLogin); 
+    const { token, ...resData } = await loginManager(managerLogin); 
 
-    res.status(200).json(resLogin);
+    res.cookie("token", token, COOKIE_OPTIONS);
+    res.status(200).json(resData);
   } catch (error) {
     next(error);
   }
@@ -188,12 +200,13 @@ export const getMeController = async (
   next: NextFunction
 ) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
-    if (!token) {
-      res.status(401).json({ message: "No token provided" });
+    const user = (req as AuthRequest).user;
+    if (!user || !user.sub) {
+      res.status(401).json({ message: "Not authenticated" });
       return;
     }
-    const profile = await getMeProfile(token);
+    const profile = await getMeProfile(user.sub, user.role);
+
     res.status(200).json(profile);
   } catch (error) {
     next(error);

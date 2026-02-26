@@ -3,6 +3,22 @@ import { AppError } from "../errors/AppError.js";
 import { verifyToken } from "../utils/jwt.js";
 import type { AuthRequest, JwtPayloadType } from "../types/auth.Types.js";
 
+const getCookie = (req: Request, name: string): string | undefined => {
+    const cookieHeader = req.headers.cookie;
+    if (!cookieHeader) return undefined;
+    
+    const cookies = cookieHeader.split(';').reduce((acc, cookie) => {
+        const parts = cookie.trim().split('=');
+        const key = parts[0];
+        const value = parts[1];
+        if (key && value) {
+            acc[key] = value;
+        }
+        return acc;
+    }, {} as Record<string, string>);
+    
+    return cookies[name];
+};
 
 export const authenticateMiddleware = (
     req: Request,
@@ -10,15 +26,11 @@ export const authenticateMiddleware = (
     next: NextFunction
 ) => {
     try {
-        const header: string | undefined = req.headers.authorization;
-    
-        if ( !header || !header.startsWith("Bearer")) {
-            throw new AppError( 401, "Missing authorization header")
-        };
+        const token = getCookie(req, 'token');
 
-        const token: string | undefined = header.split(" ")[1];
-
-        if (!token) throw new AppError(401, "Invalid token");
+        if (!token) {
+            throw new AppError(401, "Missing authentication token");
+        }
 
         const decoded: JwtPayloadType = verifyToken(token);
 
@@ -29,7 +41,7 @@ export const authenticateMiddleware = (
     } catch ( error: any ) {
         if ( error instanceof AppError ) throw error;
 
-        throw new AppError( 403, "Server Error");
+        throw new AppError( 403, "Invalid or expired token");
     };
     
 };

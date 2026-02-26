@@ -104,7 +104,7 @@ export const createManager = async (
         const newManager: HydratedDocument<ManagerFromDB> = await Manager.create(cleanManager);
         console.log(newManager);
         const token:string = signToken({
-            userId: newManager._id.toString(),
+            sub: newManager._id.toString(),
             role: newManager.role
         });
 
@@ -196,7 +196,7 @@ export const loginManager = async (
         };
 
         const token:string = signToken({
-            userId: existingManager._id.toString(),
+            sub: existingManager._id.toString(),
             role: existingManager.role
         })
 
@@ -333,14 +333,10 @@ export const updateManager = async (
     }
 };
 
-export const getMeProfile = async (token: string) => {
+export const getMeProfile = async (id: string, role: string) => {
     try {
-        const payload: JwtPayloadType = verifyToken(token);
-        const id = payload.sub
-        const role = payload.role;
-
         if (!id) {
-            throw new AppError(401, "Invalid token payload");
+            throw new AppError(401, "Invalid user ID");
         }
 
         if (role === "manager") {
@@ -349,7 +345,7 @@ export const getMeProfile = async (token: string) => {
                 throw new AppError(404, "Manager not found");
             }
             return { ok: true, profile: { ...manager, _id: manager._id.toString() } };
-        } else if (role === "planter" || role === "teamlead") {
+        } else if (role === "planter" || role === "teamLead") {
             const planter = await Planter.findById(id).lean<PlanterFromDB | null>();
             if (!planter) {
                 throw new AppError(404, "Planter not found");
@@ -360,6 +356,6 @@ export const getMeProfile = async (token: string) => {
         }
     } catch (error: any) {
         if (error instanceof AppError) throw error;
-        throw new AppError(401, "Invalid or expired token");
+        throw new AppError(500, "Server error");
     }
 };

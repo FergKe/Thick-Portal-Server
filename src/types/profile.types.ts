@@ -28,19 +28,18 @@ export type UserLoginReqBody = {
 };
 
 export type UserLoginResBody = 
-    | { ok: boolean; token: string }
-    | { ok: boolean; message: string};
+    | { ok: boolean; message: string };
 
 export type PlanterRegisterResBody<PlanterRes> = 
-    | { ok: boolean; token: string; user: PlanterRes }
+    | { ok: boolean; user: PlanterRes }
     | { ok: boolean; message: string};
 
 export type PlanterLoginResBody<PlanterRes> = 
-    | { ok: boolean; token: string, user: PlanterRes}
+    | { ok: boolean; user: PlanterRes}
     | { ok: boolean; message: string};
 
 export type ManagerLoginResBody<ManagerRes> = 
-    | { ok: boolean; token: string, user: ManagerRes }
+    | { ok: boolean; user: ManagerRes }
     | { ok: boolean; message: string};
 
 export type LoginReqBody = {
