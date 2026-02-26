@@ -14,7 +14,7 @@ import {
 } from "../controllers/profile.controllers.js";
 import { authenticateMiddleware, authorisationManagers, authorisationPlanter } from "../middleware/authMiddleware.js";
 import { validateRequest } from "../validation/validators.js";
-import { idSchema, loginSchema, signupSchema, updateProfileSchema } from "../validation/validationSchemas.js";
+import { idSchema, loginSchema, signupSchema, updateProfileSchema, registerPlanterSchema } from "../validation/validationSchemas.js";
 
 
 const router = Router();
@@ -31,7 +31,7 @@ const router = Router();
 // router.put('/manager/:_id', validateRequest({ params: idSchema, body: updateProfileSchema }), authenticateMiddleware, authorisationManagers, updateManagerProfileController);
 
 router.post('/createPlanter', validateRequest({ body: signupSchema }), createPlanterController);
-router.post('/registerPlanter', registerPlanterController)
+router.post('/registerPlanter/:_id', validateRequest({ params: idSchema, body: registerPlanterSchema }), registerPlanterController)
 router.post('/signup/manager', validateRequest({ body: signupSchema }), managerSignupController);
 router.post('/login', validateRequest({ body: loginSchema }), planterLoginController);
 router.post('/login/manager', validateRequest({ body: loginSchema }), managerLoginController);

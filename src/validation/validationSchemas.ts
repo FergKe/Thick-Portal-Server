@@ -18,6 +18,12 @@ export const updateProfileSchema = Joi.object({
     phoneNumber: Joi.string().pattern(/^(?:\+61|0)[2-478](?:[ -]?\d){8}$/).optional()
 })
 
+export const registerPlanterSchema = Joi.object({
+    username: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
+    password: Joi.string().min(8).max(30).pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/).required(),
+    phoneNumber: Joi.string().pattern(/^(?:\+61|0)[2-478](?:[ -]?\d){8}$/).required()
+});
+
 export const createPlantSchema = Joi.object({
     plantName: Joi.string().min(2).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
     basePrice: Joi.number().required(),

@@ -21,17 +21,19 @@ import {
 import { AppError } from "../errors/AppError.js";
 import { signToken, verifyToken } from "../utils/jwt.js";
 import type { JwtPayloadType } from "../types/auth.Types.js";
+import { sendPlanterInvite } from "../utils/serviceFunction.js";
 
 export const createPlanter = async (
     planter: CreatePlanterReqBody
 ) => {
     try {
-        const newPlanter: HydratedDocument<CreatePlanterReqBody> = await Planter.create(planter);
-        const resPlanter: CreatePlanterResBody = {
+        const newPlanter = await Planter.create(planter);
+        sendPlanterInvite(planter.email, newPlanter._id.toString())
+
+        return {
             ok: true,
-            message: `Planter created successfully, with ${newPlanter.email}`,
+            message: `Invitation email sent successfully to ${planter.email}.`,
         };
-        return resPlanter
 
     } catch ( error: any) {
         if ( error.code === 110000 ) {

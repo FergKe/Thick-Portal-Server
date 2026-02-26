@@ -138,5 +138,5 @@ export type ManagerSignupReqBody = {
 export type ManagerCleanReqBody = {
     username: string,
     password: string,
-    email: string
+    email: string,  
 }
