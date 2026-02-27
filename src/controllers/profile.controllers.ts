@@ -200,14 +200,14 @@ export const getMeController = async (
   next: NextFunction
 ) => {
   try {
-    const user = (req as AuthRequest).user;
-    if (!user || !user.sub) {
+    const userReq = (req as AuthRequest).user;
+    if (!userReq || !userReq.sub) {
       res.status(401).json({ message: "Not authenticated" });
       return;
     }
-    const profile = await getMeProfile(user.sub, user.role);
+    const user = await getMeProfile(userReq.sub, userReq.role);
 
-    res.status(200).json(profile);
+    res.status(200).json(user);
   } catch (error) {
     next(error);
   }
