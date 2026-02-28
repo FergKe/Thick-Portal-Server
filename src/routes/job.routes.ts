@@ -4,7 +4,8 @@ import {
     getAllJobsController,
     getJobByIdController,
     updateJobController,
-    deleteJobController
+    deleteJobController,
+    getJobByProfileController
 } from "../controllers/job.controllers.js";
 import { authenticateMiddleware, authorisationManagers } from "../middleware/authMiddleware.js";
 import { validateRequest } from "../validation/validators.js";
@@ -23,4 +24,5 @@ router.get("/", getAllJobsController);
 router.get("/:_id", validateRequest({ params: idSchema }), getJobByIdController); // Apart from this one
 router.put("/:_id", validateRequest({ body: updateJobSchema, params: idSchema }), updateJobController);
 router.delete("/:_id", validateRequest({ params: idSchema }), deleteJobController);
+router.get("/:_id", validateRequest({ params: idSchema }), getJobByProfileController)
 export default router;

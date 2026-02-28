@@ -14,7 +14,8 @@ import {
   getJobById,
   createJob,
   updateJob,
-  deleteJob
+  deleteJob,
+  getJobByProfile
 } from "../services/job.services.js";
 
 export const getAllJobsController = async (
@@ -32,7 +33,7 @@ export const getAllJobsController = async (
 };
 
 export const getJobByIdController = async (
-  req: Request<JobParams, JobRes<JobType>>,
+  req: Request<JobParams, JobRes<AggJobType>>,
   res: Response<JobRes<AggJobType>>,
   next: NextFunction
 ) => {
@@ -91,3 +92,18 @@ export const deleteJobController = async (
     return next(error);
   }
 };
+
+export const getJobByProfileController = async (
+  req: Request<JobParams, {}, JobRes<AggJobType>>,
+  res: Response<JobRes<AggJobType[]>>,
+  next: NextFunction
+) => {
+  try {
+    const { _id } = req.params;
+    const job = await getJobByProfile(_id)
+
+    res.status(200).json(job);
+  } catch ( error ) {
+    return next(error);
+  }
+}

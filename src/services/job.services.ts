@@ -142,3 +142,40 @@ export const deleteJob = async (
         throw new AppError( 500, "Internal server error")
     }
 };
+
+export const getJobByProfile = async (
+    _id: string
+) => {
+    try {
+        const convertedId = new mongoose.Types.ObjectId(_id); 
+        const jobs = await Job.aggregate<AggJobFromDB>([
+            {
+                $match: {
+                    crew: convertedId,
+                    status: "in_progress"
+                }
+            },
+            {
+                $lookup: {
+                    from: 'planters',
+                    localField: 'crew',
+                    foreignField: '_id',
+                    as: "crew"
+                }
+            }
+        ]);
+
+        if ( !jobs ) {
+            throw new AppError(404, "Job not found");
+        };
+
+        const resJob = jobs.map((job) => aggJobConversion(job));
+
+        return { ok: true , job: resJob };
+
+    } catch ( error: any ) {
+        if ( error instanceof AppError ) throw error;
+
+        throw new AppError( 500, "Internal server error")
+    }
+}
