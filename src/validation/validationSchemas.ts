@@ -7,7 +7,7 @@ export const signupSchema = Joi.object({
 
     repeatPassword: Joi.string().valid(Joi.ref("password")).required(),
 });
-export const createPLanterSchema = Joi.object({
+export const createPlanterSchema = Joi.object({
     email: Joi.string().email().required(),
 });
 
@@ -17,7 +17,7 @@ export const loginSchema = Joi.object({
 });
 
 export const updateProfileSchema = Joi.object({
-    username: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_]+$/).optional(),
+    username: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).optional(),
     phoneNumber: Joi.string().min(8).max(15).optional()
 })
 

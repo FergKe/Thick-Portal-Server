@@ -14,7 +14,7 @@ import {
 } from "../controllers/profile.controllers.js";
 import { authenticateMiddleware, authorisationManagers, authorisationPlanter } from "../middleware/authMiddleware.js";
 import { validateRequest } from "../validation/validators.js";
-import { idSchema, loginSchema, signupSchema, updateProfileSchema, registerPlanterSchema, createPLanterSchema } from "../validation/validationSchemas.js";
+import { idSchema, loginSchema, signupSchema, updateProfileSchema, registerPlanterSchema, createPlanterSchema } from "../validation/validationSchemas.js";
 
 
 const router = Router();
@@ -30,7 +30,7 @@ const router = Router();
 // router.put('/planter/:_id', validateRequest({ params: idSchema, body: updateProfileSchema }), authenticateMiddleware, authorisationPlanter, updatePlanterProfileController);
 // router.put('/manager/:_id', validateRequest({ params: idSchema, body: updateProfileSchema }), authenticateMiddleware, authorisationManagers, updateManagerProfileController);
 
-router.post('/createPlanter', validateRequest({ body: createPLanterSchema }), createPlanterController);
+router.post('/createPlanter', validateRequest({ body: createPlanterSchema }), createPlanterController);
 router.put('/registerPlanter/:_id', validateRequest({ params: idSchema, body: registerPlanterSchema }), registerPlanterController)
 router.post('/signup/manager', validateRequest({ body: signupSchema }), managerSignupController);
 router.post('/login', validateRequest({ body: loginSchema }), planterLoginController);
@@ -40,7 +40,7 @@ router.get('/planter', getAllPlantersController);
 router.get('/planter/:_id', validateRequest({ params: idSchema }), getPlanterProfileController);
 router.get('/manager/:_id', validateRequest({ params: idSchema }), getManagerProfileController);
 router.put('/planter/:_id', validateRequest({ params: idSchema, body: updateProfileSchema }), updatePlanterProfileController);
-router.put('/manager/:_id', validateRequest({ params: idSchema, body: updateProfileSchema }), updateManagerProfileController);
+router.put('/manager/:_id', validateRequest({ body: updateProfileSchema }), updateManagerProfileController);
 
 export default router;
 
