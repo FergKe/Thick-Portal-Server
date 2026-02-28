@@ -24,5 +24,5 @@ router.get("/", getAllJobsController);
 router.get("/:_id", validateRequest({ params: idSchema }), getJobByIdController); // Apart from this one
 router.put("/:_id", validateRequest({ body: updateJobSchema, params: idSchema }), updateJobController);
 router.delete("/:_id", validateRequest({ params: idSchema }), deleteJobController);
-router.get("/:_id", validateRequest({ params: idSchema }), getJobByProfileController)
+router.get("/profile/:_id", validateRequest({ params: idSchema }), getJobByProfileController)
 export default router;

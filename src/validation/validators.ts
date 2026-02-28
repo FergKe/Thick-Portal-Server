@@ -23,6 +23,7 @@ export const validateRequest = ( schema: ValidationSchemas = {}) => {
         };
 
         if ( schema.params ) {
+            console.log(req.params)
             const { error, value } = schema.params.validate( req.params );
 
             if ( error ) {
