@@ -1,5 +1,5 @@
 import { AppError } from "../errors/AppError.js";
-import type { JobFromDB } from "../types/job.types.js";
+import type { AggJobFromDB, JobFromDB } from "../types/job.types.js";
 import type { JobSheetFromDB } from "../types/jobSheet.types.js";
 import nodemailer from 'nodemailer';
 
@@ -23,6 +23,16 @@ export const jobConversion = (job: JobFromDB) => {
         jobSheets: job.jobSheets.map(jobSheet => jobSheet.toString()),
         
     }
+}
+
+export const aggJobConversion = (job: AggJobFromDB) => {
+  return {
+    ...job,
+    _id: job._id.toString(),
+    teamLead: job.teamLead.toString(),
+    crew: job.crew.map(crew => ({ ...crew, _id: crew._id.toString() })),
+    jobSheets: job.jobSheets.map(jobSheet => jobSheet.toString()),
+  }
 }
 
 export async function sendPlanterInvite(email: string, id: string) {

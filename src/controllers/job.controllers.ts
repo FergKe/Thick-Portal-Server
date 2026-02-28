@@ -6,7 +6,8 @@ import {
   type JobRes,
   type JobCreateReq,
   type JobUpdateReq,
-  type JobDeleteRes
+  type JobDeleteRes,
+  type AggJobType
 } from "../types/job.types.js";
 import {
   getAllJobs,
@@ -32,7 +33,7 @@ export const getAllJobsController = async (
 
 export const getJobByIdController = async (
   req: Request<JobParams, JobRes<JobType>>,
-  res: Response<JobRes<JobType>>,
+  res: Response<JobRes<AggJobType>>,
   next: NextFunction
 ) => {
   try {

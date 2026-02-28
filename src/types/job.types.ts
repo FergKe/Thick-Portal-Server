@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import { type UserFromDB, type PlanterRes, type AggPlanterRes, type AggUserFromDB } from "./profile.types.js";
 
 type status = "in_progress" | "completed";
  
@@ -16,6 +17,20 @@ export type JobType = {
     completedDate?: Date | null,
 };
 
+export type AggJobType = {
+    _id: string,
+    jobName: string,
+    client: string,
+    location: string,
+    description: string,
+    crew: AggPlanterRes[]
+    teamLead: string,
+    jobSheets: string[]
+    status: status
+    dateCreated: Date,
+    completedDate?: Date | null,
+};
+
 export type JobFromDB = {
     _id: Types.ObjectId,
     jobName: string,
@@ -23,6 +38,20 @@ export type JobFromDB = {
     location: string,
     description: string,
     crew: Types.ObjectId[]
+    teamLead: Types.ObjectId,
+    jobSheets: Types.ObjectId[]
+    status: status
+    dateCreated: Date,
+    completedDate?: Date | null,
+};
+
+export type AggJobFromDB = {
+    _id: Types.ObjectId,
+    jobName: string,
+    client: string,
+    location: string,
+    description: string,
+    crew: AggUserFromDB[]
     teamLead: Types.ObjectId,
     jobSheets: Types.ObjectId[]
     status: status

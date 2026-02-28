@@ -3,12 +3,15 @@ import { AppError } from "../errors/AppError.js";
 import Job from "../models/job.model.js";
 import Planter from "../models/planter.model.js";
 import {
+    type AggJobFromDB,
+    type AggJobType,
     type JobCreateReq,
     type JobFromDB,
     type JobType,
     type JobUpdateReq,
     } from "../types/job.types.js";
-import { jobConversion } from "../utils/serviceFunction.js";
+import { aggJobConversion, jobConversion } from "../utils/serviceFunction.js";
+import mongoose from "mongoose";
 
 export const getAllJobs = async () => {
     try {
@@ -33,13 +36,30 @@ export const getJobById = async (
     _id: string
 ) => {
     try {
-        const job = await Job.findById(_id).lean<JobFromDB>();
+        const convertedId = new mongoose.Types.ObjectId(_id); 
+        const job = await Job.aggregate<AggJobFromDB>([
+
+            {
+                $match: {
+                    _id: convertedId
+                }
+            },
+            {
+                $lookup: {
+                    from: 'planters',
+                    localField: 'crew',
+                    foreignField: '_id',
+                    as: "crew"
+                }
+            }
+        ]);
 
         if ( !job ) {
             throw new AppError(404, "Job not found");
         };
+        const singleJob = job[0] as AggJobFromDB;
 
-        const resJob: JobType = jobConversion(job);
+        const resJob: AggJobType = aggJobConversion(singleJob);
 
         return { ok: true , job: resJob };
 

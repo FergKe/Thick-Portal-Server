@@ -8,6 +8,14 @@ export type UserFromDB = {
     role: string
 };
 
+export type AggUserFromDB = {
+    _id: Types.ObjectId
+    username: string,
+    email: string,
+    phoneNumber?: string
+    role: "planter" | 'teamLead'
+};
+
 
 export type LoginUserType = {
      _id: Types.ObjectId
@@ -63,6 +71,14 @@ export type RegisterPlanterReqBody = {
 export type PlanterRes = {
     _id: string,
     username?: string | undefined,
+    email: string,
+    phoneNumber?: string | undefined
+    role: "planter" | "teamLead"
+};
+
+export type AggPlanterRes = {
+    _id: string,
+    username: string | undefined,
     email: string,
     phoneNumber?: string | undefined
     role: "planter" | "teamLead"
