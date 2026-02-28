@@ -71,6 +71,10 @@ export type JobRes<JobType> =
     | { ok: boolean; job: JobType }
     | { ok: boolean; message: string };
 
+export type JobProfileRes<JobType> = 
+    | { ok: boolean; job: JobType | null }
+    | { ok: boolean; message: string };
+
 export type JobCreateReq = Partial<{
     jobName: string,
     client: string,

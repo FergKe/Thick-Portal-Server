@@ -148,7 +148,7 @@ export const getJobByProfile = async (
 ) => {
     try {
         const convertedId = new mongoose.Types.ObjectId(_id); 
-        const jobs = await Job.aggregate<AggJobFromDB>([
+        const jobs = await Job.aggregate<AggJobFromDB | null>([
             {
                 $match: {
                     crew: convertedId,
@@ -166,10 +166,10 @@ export const getJobByProfile = async (
         ]);
 
         if ( !jobs ) {
-            throw new AppError(404, "Job not found");
+            return { ok: true , job: [] };
         };
 
-        const resJob = jobs.map((job) => aggJobConversion(job));
+        const resJob = jobs.map((job) => aggJobConversion(job as AggJobFromDB));
 
         return { ok: true , job: resJob };
 

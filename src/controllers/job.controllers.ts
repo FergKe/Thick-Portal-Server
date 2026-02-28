@@ -7,7 +7,8 @@ import {
   type JobCreateReq,
   type JobUpdateReq,
   type JobDeleteRes,
-  type AggJobType
+  type AggJobType,
+  type JobProfileRes
 } from "../types/job.types.js";
 import {
   getAllJobs,
@@ -94,8 +95,8 @@ export const deleteJobController = async (
 };
 
 export const getJobByProfileController = async (
-  req: Request<JobParams, {}, JobRes<AggJobType>>,
-  res: Response<JobRes<AggJobType[]>>,
+  req: Request<JobParams, {}, JobProfileRes<AggJobType>>,
+  res: Response<JobProfileRes<AggJobType[]>>,
   next: NextFunction
 ) => {
   try {
