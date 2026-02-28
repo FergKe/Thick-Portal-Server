@@ -1,6 +1,7 @@
 import type { DeleteResult } from "mongoose";
 import { AppError } from "../errors/AppError.js";
 import Job from "../models/job.model.js";
+import Planter from "../models/planter.model.js";
 import {
     type JobCreateReq,
     type JobFromDB,
@@ -54,6 +55,11 @@ export const createJob = async (
 ) => {
     try {
         const newJob = (await Job.create(data)).toObject();
+        await Planter.findByIdAndUpdate(
+            newJob.teamLead, 
+            { $set: { role: "teamLead" }},
+            { new: true }
+        )
 
         const resJob: JobType = jobConversion(newJob);
 
