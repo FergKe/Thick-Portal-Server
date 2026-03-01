@@ -3,20 +3,20 @@ import { Types } from "mongoose";
 type PlantListFromDB = {
     plantId: Types.ObjectId,
     plantName: string,
-    unsemi?: number | null,
-    compacted?: number | null,
-    organicMulch?: number | null,
-    jute?: number | null,
+    unsemi?: boolean | null,
+    compacted?: boolean | null,
+    organicMulch?: boolean | null,
+    jute?: boolean | null,
     quantity: number
 };
 
 export type PlantList = {
     plantId: string,
     plantName: string,
-    unsemi?: number | null,
-    compacted?: number | null,
-    organicMulch?: number | null,
-    jute?: number | null,
+    unsemi?: boolean | null,
+    compacted?: boolean | null,
+    organicMulch?: boolean | null,
+    jute?: boolean | null,
     quantity: number
 };
 
@@ -24,15 +24,15 @@ export type NonPlantingList = {
     taskId: string,
     taskName: string,
     taskDescription: string,
-    timeStart: Date,
-    timeEnd: Date,
+    timeStart: string,
+    timeEnd: string,
 }
 type NonPlantingListFromDB = {
     taskId: Types.ObjectId,
     taskName: string,
     taskDescription: string,
-    timeStart: Date,
-    timeEnd: Date,
+    timeStart: string,
+    timeEnd: string,
 }
  
 export type JobSheetType = {

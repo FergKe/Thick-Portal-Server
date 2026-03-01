@@ -102,6 +102,7 @@ export const getJobByProfileController = async (
   try {
     const { _id } = req.params;
     const job = await getJobByProfile(_id)
+    console.log(job)
 
     res.status(200).json(job);
   } catch ( error ) {

@@ -15,11 +15,11 @@ export const nonPlantingTaskList = new Schema({
         required: true,
     },
     timeStart: {
-        type: Date,
+        type: String,
         required: true,
     },
     timeEnd: {
-        type: Date,
+        type: String,
         required: true
     }
 })
@@ -35,19 +35,19 @@ export const plantArraySchema = new Schema ({
         required: true
     },
     unsemi: {
-        type: Number,
+        type: Boolean,
         required: false
     },
     compacted: {
-        type: Number,
+        type: Boolean,
         required: false
     },
     organicMulch: {
-        type: Number,
+        type: Boolean,
         required: false
     },
     jute: {
-        type: Number,
+        type: Boolean,
         required: false
     },
     quantity: {

@@ -15,6 +15,7 @@ export const validateRequest = ( schema: ValidationSchemas = {}) => {
     ) => {
         if ( schema.body ) {
             const { error, value } = schema.body.validate( req.body );
+            console.log(req.body)
 
             if ( error ) {
                 throw new AppError( 400 ,error.message );

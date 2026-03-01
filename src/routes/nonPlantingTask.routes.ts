@@ -13,10 +13,15 @@ import { createTaskSchema, idSchema, updateTaskSchema } from "../validation/vali
 
 const router = Router();
 
-router.get("/", authenticateMiddleware, getAllTasksController);
+// router.get("/", authenticateMiddleware, getAllTasksController);
+// router.get("/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, authorisationManagers, getTaskByIdController);
+// router.post("/", validateRequest({ body: createTaskSchema }), authenticateMiddleware, authorisationManagers, createTaskController);
+// router.put("/:_id", validateRequest({ params: idSchema, body: updateTaskSchema }), authenticateMiddleware, authorisationManagers, updateTaskController);
+// router.delete("/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, authorisationManagers, deleteTaskController);
+
+router.get("/", getAllTasksController);
 router.get("/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, authorisationManagers, getTaskByIdController);
 router.post("/", validateRequest({ body: createTaskSchema }), authenticateMiddleware, authorisationManagers, createTaskController);
 router.put("/:_id", validateRequest({ params: idSchema, body: updateTaskSchema }), authenticateMiddleware, authorisationManagers, updateTaskController);
 router.delete("/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, authorisationManagers, deleteTaskController);
-
 export default router;
