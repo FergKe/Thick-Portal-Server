@@ -7,6 +7,7 @@ export const signupSchema = Joi.object({
 
     repeatPassword: Joi.string().valid(Joi.ref("password")).required(),
 });
+
 export const createPlanterSchema = Joi.object({
     email: Joi.string().email().required(),
 });
@@ -18,7 +19,8 @@ export const loginSchema = Joi.object({
 
 export const updateProfileSchema = Joi.object({
     username: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).optional(),
-    phoneNumber: Joi.string().min(8).max(15).optional()
+    phoneNumber: Joi.string().min(8).max(15).optional(),
+    role: Joi.string().valid('manager', 'planter', 'teamLead').optional()
 })
 
 export const registerPlanterSchema = Joi.object({
@@ -70,6 +72,7 @@ export const createJobSchema = Joi.object({
 });
 
 export const updateJobSchema = Joi.object({
+    JobName: Joi.string(),
     description: Joi.string().min(3).max(300).pattern(/^[a-zA-Z0-9_ ]+$/).optional(),
     crew: Joi.array().items(Joi.string().hex().length(24)).optional(),
     teamLead: Joi.string().hex().length(24).optional(),
@@ -82,7 +85,7 @@ export const createJobSheetSchema = Joi.object({
     planterId: Joi.string().hex().length(24).required(),
     plants: Joi.array().items(Joi.object({
         plantId: Joi.string().hex().length(24).required(),
-        plantName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
+        plantName: Joi.string().min(1).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
         quantity: Joi.number().required(),
         basePrice: Joi.number().optional(),
         unsemi: Joi.boolean().optional(),
@@ -127,22 +130,21 @@ export const createTeamLeadJobSheetSchema = Joi.object({
     clientName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
     plants: Joi.array().items(Joi.object({
         plantId: Joi.string().hex().length(24).required(),
-        plantName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
+        plantName: Joi.string().min(1).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
         quantity: Joi.number().required(),
-        basePrice: Joi.number().optional(),
-        unsemi: Joi.number().optional(),
-        compacted: Joi.number().optional(),
-        organicMulch: Joi.number().optional(),
-        jute: Joi.number().optional(),
+        unsemi: Joi.boolean().optional(),
+        compacted: Joi.boolean().optional(),
+        organicMulch: Joi.boolean().optional(),
+        jute: Joi.boolean().optional(),
     })).optional(),
     nonPlantingTask: Joi.array().items(Joi.object({
         taskId: Joi.string().hex().length(24).required(),
         taskName: Joi.string().min(3).max(30).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
         taskDescription: Joi.string().min(3).max(100).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
-        timeStart: Joi.date().required(),
-        timeEnd: Joi.date().required(),
+        timeStart: Joi.string().required(),
+        timeEnd: Joi.string().required(),
     })).optional(),
-    notes: Joi.string().min(3).max(100).pattern(/^[a-zA-Z0-9_ ]+$/).required(),
+    notes: Joi.array().items(Joi.string().min(3).max(100)).required(),
 });
 
 export const updateTeamLeadJobSheetSchema = Joi.object({

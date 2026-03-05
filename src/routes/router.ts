@@ -13,6 +13,6 @@ router.use("/api/job", jobRoutes);
 router.use("/api/jobSheet", jobSheetRoutes);
 router.use("/api/plant", plantRoutes);
 router.use("/api/nonPlantingTask", nonPlantingTaskRoutes);
-router.use("/api/teamleadjobsheet", teamLeadJobSheetRoutes);
+router.use("/api/teamLeadJobSheet", teamLeadJobSheetRoutes);
 
 export default router;

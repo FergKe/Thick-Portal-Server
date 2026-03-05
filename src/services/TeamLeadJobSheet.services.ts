@@ -70,11 +70,13 @@ export const createTeamLeadJobSheet = async (
             teamLeadId: newTeamLeadJobSheet.teamLeadId.toString(),
             plants: newTeamLeadJobSheet.plants.map((plant) => ({
                 ...plant,
-                plantId: plant.plantId.toString()
+                plantId: plant.plantId.toString(),
+                _id: plant._id.toString()
             })),
             nonePlantingTask: newTeamLeadJobSheet.nonePlantingTask.map((task) => ({
                 ...task,
-                taskId: task.taskId.toString()
+                taskId: task.taskId.toString(),
+                _id: task._id.toString()
             })),
         };
 

@@ -8,7 +8,7 @@ export type TeamLeadJobSheetType = {
     teamLeadId: string,
     plants: PlantList[],
     nonePlantingTask: NonPlantingList[],
-    notes: string,
+    notes: string[],
     dateCreated: Date
 };
 
@@ -18,7 +18,7 @@ export type NewTeamLeadJobSheet = {
     teamLeadId: Types.ObjectId,
     plants: PlantList[],
     nonePlantingTask: NonPlantingList[],
-    notes: string,
+    notes: string[],
     dateCreated: Date,
 };
 
@@ -29,7 +29,7 @@ export type TeamLeadJobSheetFromDB = {
     teamLeadId: Types.ObjectId,
     plants: PlantList[],
     nonePlantingTask: NonPlantingList[],
-    notes: string,
+    notes: string[],
     dateCreated: Date,
 };
 
@@ -51,7 +51,7 @@ export type TeamLeadJobSheetCreateReq = {
     teamLeadId: string,
     plants: PlantList[],
     nonePlantingTask: NonPlantingList[],
-    notes: string,
+    notes: string[],
     dateCreated: Date
 };
 
@@ -59,5 +59,5 @@ export type TeamLeadJobSheetUpdateReq = {
     clientName?: string,
     plants?: PlantList[],
     nonePlantingTask?: NonPlantingList[],
-    notes?: string,
+    notes?: string[],
 };

@@ -13,18 +13,18 @@ import { createJobSheetSchema, idSchema, updateJobSheetSchema } from "../validat
 
 const router = Router();
 
-// router.post("/", validateRequest({ body: createJobSheetSchema }), authenticateMiddleware, authorisationPlanter, createJobSheetController);
-// router.get("/", authenticateMiddleware, authorisationManagers, getAllJobSheetsController);
-// router.get("/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, getJobSheetByIdController);
-// router.get("/job/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, getJobSheetsByJobIdController);
-// router.put("/:_id", validateRequest({ params: idSchema, body: updateJobSheetSchema }), authenticateMiddleware, authorisationPlanter, updateJobSheetController);
-// router.delete("/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, authorisationManagers, deleteJobSheetController);
+router.post("/", validateRequest({ body: createJobSheetSchema }), authenticateMiddleware, authorisationPlanter, createJobSheetController);
+router.get("/", authenticateMiddleware, authorisationManagers, getAllJobSheetsController);
+router.get("/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, getJobSheetByIdController);
+router.get("/job/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, getJobSheetsByJobIdController);
+router.put("/:_id", validateRequest({ params: idSchema, body: updateJobSheetSchema }), authenticateMiddleware, authorisationPlanter, updateJobSheetController);
+router.delete("/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, authorisationManagers, deleteJobSheetController);
 
-router.post("/", validateRequest({ body: createJobSheetSchema }), createJobSheetController);
-router.get("/", getAllJobSheetsController);
-router.get("/:_id", validateRequest({ params: idSchema }),  getJobSheetByIdController);
-router.get("/job/:_id", validateRequest({ params: idSchema }),  getJobSheetsByJobIdController);
-router.put("/:_id", validateRequest({ params: idSchema, body: updateJobSheetSchema }), updateJobSheetController);
-router.delete("/:_id", validateRequest({ params: idSchema }), deleteJobSheetController);
+// router.post("/", validateRequest({ body: createJobSheetSchema }), createJobSheetController);
+// router.get("/", getAllJobSheetsController);
+// router.get("/:_id", validateRequest({ params: idSchema }),  getJobSheetByIdController);
+// router.get("/job/:_id", validateRequest({ params: idSchema }),  getJobSheetsByJobIdController);
+// router.put("/:_id", validateRequest({ params: idSchema, body: updateJobSheetSchema }), updateJobSheetController);
+// router.delete("/:_id", validateRequest({ params: idSchema }), deleteJobSheetController);
 
 export default router;

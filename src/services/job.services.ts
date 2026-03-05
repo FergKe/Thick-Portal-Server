@@ -3,6 +3,8 @@ import { AppError } from "../errors/AppError.js";
 import Job from "../models/job.model.js";
 import Planter from "../models/planter.model.js";
 import {
+    type AggJobAndSheetFromDB,
+    type AggJobAndSheetType,
     type AggJobFromDB,
     type AggJobType,
     type JobCreateReq,
@@ -10,7 +12,7 @@ import {
     type JobType,
     type JobUpdateReq,
     } from "../types/job.types.js";
-import { aggJobConversion, jobConversion } from "../utils/serviceFunction.js";
+import { aggJobAndSheetConversion, aggJobConversion, jobConversion } from "../utils/serviceFunction.js";
 import mongoose from "mongoose";
 
 export const getAllJobs = async () => {
@@ -37,7 +39,7 @@ export const getJobById = async (
 ) => {
     try {
         const convertedId = new mongoose.Types.ObjectId(_id); 
-        const job = await Job.aggregate<AggJobFromDB>([
+        const job = await Job.aggregate<AggJobAndSheetFromDB>([
 
             {
                 $match: {
@@ -51,15 +53,23 @@ export const getJobById = async (
                     foreignField: '_id',
                     as: "crew"
                 }
+            },
+            {
+                $lookup: {
+                    from: 'jobsheets',
+                    localField: '_id',
+                    foreignField: 'jobId',
+                    as: "jobSheets"
+                }
             }
         ]);
 
         if ( !job ) {
             throw new AppError(404, "Job not found");
         };
-        const singleJob = job[0] as AggJobFromDB;
+        const singleJob = job[0] as AggJobAndSheetFromDB;
 
-        const resJob: AggJobType = aggJobConversion(singleJob);
+        const resJob: AggJobAndSheetType = aggJobAndSheetConversion(singleJob);
 
         return { ok: true , job: resJob };
 

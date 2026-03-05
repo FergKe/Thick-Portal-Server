@@ -12,16 +12,16 @@ import { createPlantSchema, idSchema, updatePlantSchema } from "../validation/va
 
 const router = Router();
 
-// router.get("/", authenticateMiddleware, getAllPlantsController);
-// router.get("/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, authorisationManagers, getPlantByIdController);
-// router.post("/", validateRequest({ body: createPlantSchema }), authenticateMiddleware, authorisationManagers, createPlantController);
-// router.put("/:_id", validateRequest({ params: idSchema, body: updatePlantSchema }), authenticateMiddleware, authorisationManagers, updatePlantController);
-// router.delete("/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, authorisationManagers, deletePlantController);
+router.get("/", authenticateMiddleware, getAllPlantsController);
+router.get("/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, authorisationManagers, getPlantByIdController);
+router.post("/", validateRequest({ body: createPlantSchema }), authenticateMiddleware, authorisationManagers, createPlantController);
+router.put("/:_id", validateRequest({ params: idSchema, body: updatePlantSchema }), authenticateMiddleware, authorisationManagers, updatePlantController);
+router.delete("/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, authorisationManagers, deletePlantController);
 
-router.get("/", getAllPlantsController);
-router.get("/:_id", validateRequest({ params: idSchema }), getPlantByIdController);
-router.post("/", validateRequest({ body: createPlantSchema }), createPlantController);
-router.put("/:_id", validateRequest({ params: idSchema, body: updatePlantSchema }), updatePlantController);
-router.delete("/:_id", validateRequest({ params: idSchema }), deletePlantController);
+// router.get("/", getAllPlantsController);
+// router.get("/:_id", validateRequest({ params: idSchema }), getPlantByIdController);
+// router.post("/", validateRequest({ body: createPlantSchema }), createPlantController);
+// router.put("/:_id", validateRequest({ params: idSchema, body: updatePlantSchema }), updatePlantController);
+// router.delete("/:_id", validateRequest({ params: idSchema }), deletePlantController);
 
 export default router;

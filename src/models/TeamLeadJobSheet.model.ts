@@ -30,8 +30,8 @@ const teamLeadJobSheetSchema = new Schema({
 
     },
     notes: {
-        type: String,
-        default: ""
+        type: Array,
+        default: [],
     },
     dateCreated: {
         type: Date,

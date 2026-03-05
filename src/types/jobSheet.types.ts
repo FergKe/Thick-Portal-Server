@@ -8,6 +8,7 @@ type PlantListFromDB = {
     organicMulch?: boolean | null,
     jute?: boolean | null,
     quantity: number
+    _id: Types.ObjectId
 };
 
 export type PlantList = {
@@ -18,6 +19,7 @@ export type PlantList = {
     organicMulch?: boolean | null,
     jute?: boolean | null,
     quantity: number
+    _id: string
 };
 
 export type NonPlantingList = {
@@ -26,6 +28,7 @@ export type NonPlantingList = {
     taskDescription: string,
     timeStart: string,
     timeEnd: string,
+    _id: string
 }
 type NonPlantingListFromDB = {
     taskId: Types.ObjectId,
@@ -33,6 +36,7 @@ type NonPlantingListFromDB = {
     taskDescription: string,
     timeStart: string,
     timeEnd: string,
+    _id: Types.ObjectId
 }
  
 export type JobSheetType = {

@@ -1,5 +1,5 @@
 import { AppError } from "../errors/AppError.js";
-import type { AggJobFromDB, JobFromDB } from "../types/job.types.js";
+import type { AggJobAndSheetFromDB, AggJobFromDB, JobFromDB } from "../types/job.types.js";
 import type { JobSheetFromDB } from "../types/jobSheet.types.js";
 import nodemailer from 'nodemailer';
 
@@ -32,6 +32,31 @@ export const aggJobConversion = (job: AggJobFromDB) => {
     teamLead: job.teamLead.toString(),
     crew: job.crew.map(crew => ({ ...crew, _id: crew._id.toString() })),
     jobSheets: job.jobSheets.map(jobSheet => jobSheet.toString()),
+  }
+}
+
+export const aggJobAndSheetConversion = (job: AggJobAndSheetFromDB) => {
+  return {
+    ...job,
+    _id: job._id.toString(),
+    teamLead: job.teamLead.toString(),
+    crew: job.crew.map(crew => ({ ...crew, _id: crew._id.toString() })),
+    jobSheets: job.jobSheets.map(jobSheet => ({
+      ...jobSheet,
+      _id: jobSheet._id.toString(),
+      jobId: jobSheet.jobId.toString(),
+      planterId: jobSheet.planterId.toString(),
+      plants: jobSheet.plants.map(plant => ({
+        ...plant,
+        plantId: plant.plantId.toString(),
+        _id: plant._id.toString(),
+      })),
+      nonPlantingTask: jobSheet.nonPlantingTask.map(task => ({
+        ...task,
+        taskId: task.taskId.toString(),
+        _id: task._id.toString(),
+      })),
+    })),
   }
 }
 

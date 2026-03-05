@@ -13,16 +13,17 @@ import { createJobSchema, idSchema, updateJobSchema } from "../validation/valida
 
 const router = Router();
 // These should be protect routes for only managers
-// router.post("/", validateRequest({ body: createJobSchema }), authenticateMiddleware, authorisationManagers, createJobController);
-// router.get("/", authenticateMiddleware, authorisationManagers, getAllJobsController);
-// router.get("/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, getJobByIdController); // Apart from this one
-// router.put("/:_id", validateRequest({ body: createJobSchema, params: idSchema }), authenticateMiddleware, authorisationManagers, updateJobController);
-// router.delete("/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, authorisationManagers, deleteJobController);
+router.post("/", validateRequest({ body: createJobSchema }), authenticateMiddleware, authorisationManagers, createJobController);
+router.get("/", authenticateMiddleware, authorisationManagers, getAllJobsController);
+router.get("/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, getJobByIdController); // Apart from this one
+router.put("/:_id", validateRequest({ body: updateJobSchema, params: idSchema }), authenticateMiddleware, authorisationManagers, updateJobController);
+router.delete("/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, authorisationManagers, deleteJobController);
+router.get("/profile/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, getJobByProfileController)
 
-router.post("/", validateRequest({ body: createJobSchema }), createJobController);
-router.get("/", getAllJobsController);
-router.get("/:_id", validateRequest({ params: idSchema }), getJobByIdController); // Apart from this one
-router.put("/:_id", validateRequest({ body: updateJobSchema, params: idSchema }), updateJobController);
-router.delete("/:_id", validateRequest({ params: idSchema }), deleteJobController);
-router.get("/profile/:_id", validateRequest({ params: idSchema }), getJobByProfileController)
+// router.post("/", validateRequest({ body: createJobSchema }), createJobController);
+// router.get("/", getAllJobsController);
+// router.get("/:_id", validateRequest({ params: idSchema }), getJobByIdController); // Apart from this one
+// router.put("/:_id", validateRequest({ body: updateJobSchema, params: idSchema }), updateJobController);
+// router.delete("/:_id", validateRequest({ params: idSchema }), deleteJobController);
+// router.get("/profile/:_id", validateRequest({ params: idSchema }), getJobByProfileController)
 export default router;

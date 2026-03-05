@@ -20,7 +20,7 @@ const router = Router();
 
 router.post("/", validateRequest({ body: createTeamLeadJobSheetSchema }), createTeamLeadJobSheetController);
 router.get("/", getAllTeamLeadJobSheetsController);
-router.get("/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, authorisationManagers, getTeamLeadJobSheetByIdController);
+router.get("/:_id", validateRequest({ params: idSchema }), getTeamLeadJobSheetByIdController);
 router.put("/:_id", validateRequest({ params: idSchema, body: updateTeamLeadJobSheetSchema }), authenticateMiddleware, authorisationTeamLead, updateTeamLeadJobSheetController);
 router.delete("/:_id", validateRequest({ params: idSchema }), authenticateMiddleware, authorisationManagers, deleteTeamLeadJobSheetController);
 
